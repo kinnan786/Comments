@@ -1,0 +1,27 @@
+﻿using System.Web.Mvc;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class AdminFormsController : Controller
+    {
+        // GET: AdminForms
+        public ActionResult Advanced()
+        {
+            return View();
+        }
+
+
+        // GET: AdminForms
+        public ActionResult Editors()
+        {
+            return View();
+        }
+
+
+        // GET: AdminForms
+        public ActionResult General()
+        {
+            return View();
+        }
+    }
+}

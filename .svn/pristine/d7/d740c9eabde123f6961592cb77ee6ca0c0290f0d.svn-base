@@ -1,0 +1,13 @@
+﻿using System.Web.Mvc;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class AdminWidgetsController : Controller
+    {
+        // GET: AdminWidgets
+        public ActionResult Index()
+        {
+            return View();
+        }
+    }
+}

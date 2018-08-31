@@ -1,0 +1,799 @@
+﻿@model Comments.Web.Models.FacebookPostViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet"/>
+    <style type="text/css">
+        body, .navbar-default { background-color: white !important; }
+
+        .panel-footer, .panel-heading {
+            padding-bottom: 5px !important;
+            padding-left: 5px !important;
+            padding-right: 5px !important;
+            padding-top: 5px !important;
+        }
+
+        text { padding: 10px !important; }
+
+        .facebooksaveicon {
+            background-image: url('../../Content/save.png');
+            background-position: 0 -34px;
+            background-repeat: no-repeat;
+            background-size: auto;
+            display: inline-block;
+            height: 16px;
+            left: -22px;
+            width: 16px;
+        }
+
+        .emoji {
+            height: 32px;
+            margin: 2px;
+            position: relative;
+            top: -2px;
+            width: 32px;
+        }
+
+        .grid-item { width: 45%; }
+
+        .panel-footer, .panel-default > .panel-heading { background-color: white !important; }
+
+        .reaction-like, .reaction-wow, .reaction-haha, .reaction-love, .reaction-angry, .reaction-sad, .reaction-shares, .reaction-comments {
+            background-image: url('../../Content/Images/reaction.png');
+            background-repeat: no-repeat;
+            height: 16px;
+            position: relative;
+            top: 3px;
+            width: 16px;
+        }
+
+        .reaction-wow { background-position: -17px -146px; }
+
+        .reaction-like { background-position: 0px -130px; }
+
+        .reaction-love { background-position: -17px -130px; }
+
+        .reaction-haha { background-position: -34px -113px; }
+
+        .reaction-angry { background-position: -34px -96px; }
+
+
+        .reaction-sad { background-position: -34px -130px; }
+
+        .reaction-shares { background-position: -47px -178px; }
+
+        .reaction-comments { background-position: -32px -162px; }
+
+        ul.menu li { display: inline-block; }
+
+        #canvas-container {
+            margin-bottom: 5px;
+            margin-top: 5px;
+            overflow-x: auto;
+            overflow-y: visible;
+            position: relative;
+        }
+
+        .canvas {
+            display: block;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .canvas.hide { display: none; }
+
+        #box {
+            border-radius: 25px;
+            box-shadow: 0 0 100px 100px rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            pointer-events: none;
+            position: absolute;
+        }
+
+        .customMark {
+    padding: .2em;
+    background-color: #ff0;
+}
+
+    </style>
+
+</head>
+<body>
+<div class="container" style="margin-bottom: 20px !important; margin-top: 20px !important;">
+
+<div class="row">
+    <div class="col-lg-6" style="padding-left: 0px !important; padding-right: 0px !important;">
+
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#General" aria-controls="home" role="tab" data-toggle="tab">General</a>
+            </li>
+            <li role="presentation">
+                <a href="#WordGraph" aria-controls="profile" role="tab" data-toggle="tab">Common Words</a>
+            </li>
+            <li role="presentation">
+                <a href="#Media" aria-controls="messages" role="tab" data-toggle="tab">Media</a>
+            </li>
+            <li role="presentation">
+                <a href="#Emoji" aria-controls="messages" role="tab" data-toggle="tab">Emoji</a>
+            </li>
+            <li role="presentation">
+                <a href="#TimeLine" aria-controls="settings" role="tab" data-toggle="tab">TimeLine</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="General" style="border: 1px solid #ddd; border-top: none; height: 400px; overflow: scroll;">
+                <ul class="menu">
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-shares" style="display: inline-block;"></div> &nbsp;&nbsp;Published On <b> @DateTime.Now.ToShortDateString()</b>
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Shares&nbsp;<div class="reaction-shares" style="display: inline-block;"></div>&nbsp;@Html.DisplayTextFor(m => m.General.Shares)
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Comments&nbsp;<div class="reaction-comments" style="display: inline-block;"></div>&nbsp;@Html.DisplayTextFor(m => m.General.Comments)
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Replies&nbsp;<div class="reaction-comments" style="display: inline-block;"></div>&nbsp;@Html.DisplayTextFor(m => m.General.Replies)
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Comment Likes&nbsp;<div class="reaction-comments" style="display: inline-block;"></div> &nbsp;@Html.DisplayTextFor(m => m.General.CommentsLikes)
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Replies Likes&nbsp;<div class="reaction-comments" style="display: inline-block;"></div>&nbsp;@Html.DisplayTextFor(m => m.General.RepliesLikes)
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            People in Converstaion <b>@Html.DisplayTextFor(m => m.General.PeopleInConversation)</b>
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Most Active User <b>@Html.DisplayTextFor(m => m.General.MostActiveUsers)</b>
+                        </button>
+                    </li>
+                </ul>
+                &nbsp;&nbsp;&nbsp; <h4>Reactions</h4>
+
+                <ul class="menu">
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Like&nbsp;<div class="reaction-like" style="display: inline-block;"></div>&nbsp;@Html.DisplayTextFor(m => m.General.Like)
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Love&nbsp;<div class="reaction-love" style="display: inline-block;"></div>&nbsp;@Html.DisplayTextFor(m => m.General.Love)
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Haha&nbsp;<div class="reaction-haha" style="display: inline-block;"></div>&nbsp;@Html.DisplayTextFor(m => m.General.Haha)
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Wow&nbsp;<div class="reaction-wow" style="display: inline-block;"></div>&nbsp;@Html.DisplayTextFor(m => m.General.Wow)
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Angry&nbsp;<div class="reaction-angry" style="display: inline-block;"></div>&nbsp;@Html.DisplayTextFor(m => m.General.Angry)
+                        </button>
+                    </li>
+
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Sad&nbsp;<div class="reaction-sad" style="display: inline-block;"></div>&nbsp;@Html.DisplayTextFor(m => m.General.Sad)
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="WordGraph" style="border: 1px solid #ddd; border-top: none;">
+                <div id="canvas-container" style="height: 400px; overflow: scroll;">
+                    <canvas id="my_canvas" width="600" height="400" class="canvas"></canvas>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="Media" style="border: 1px solid #ddd; border-top: none; height: 400px;">
+                <div class="row" style="height: 400px; overflow: scroll; padding: 5px;">
+                    @for (var i = 0; i < 10; i++)
+                    {
+                        <text>
+                            <div class="col-lg-4">
+                                <a class="thumbnail" href="#">
+                                    <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                                </a>
+                            </div>
+                        </text>
+                    }
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="Emoji" style="border: 1px solid #ddd; border-top: none; height: 400px; overflow: scroll;">
+                Emoji 20
+            </div>
+            <div role="tabpanel" class="tab-pane" id="TimeLine" style="border: 1px solid #ddd; border-top: none; height: 400px; overflow: scroll;">
+                <!-- Identify where the chart should be drawn. -->
+                <div id="myPieChart"></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-6" style="padding-left: 0px !important; padding-right: 0px !important;">
+        <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Funiladmag%2Fvideos%2F2467949146561463%2F&show_text=0&width=400" width="400" height="400" style="border: none; overflow: hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <br/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-6" style="border: 1px solid #ddd; margin-right: 20px;">
+        <div class="row">
+            <div class="col-xs-10 text-center">
+                <h5>Comments</h5>
+            </div>
+            <div class="col-xs-2" style="padding-top: 2px;">
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="commentSortOrder" class="dropdown-menu pull-right" role="menu" style="cursor: pointer;">
+                            <li>
+                                <a id="anchorSortTopLikeComments" data-toggle="tooltip" data-placement="top" onclick="SortComments(this, 1);" title="Top Liked Comments">Top Liked</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tooltip" data-placement="top" onclick="SortComments(this, 2);" title="Top Comments By Replies count">Top Replied</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tooltip" data-placement="top" onclick="SortComments(this, 3);" title="Most Recent Comments">Most Recent</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tooltip" onclick="SortComments(this, 4);" title="Most Old Comments">Most Old</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="input-group" style="width: 100%;">
+                    <input id="txtSearchComments" type="text" class="form-control" placeholder="Search Comments">
+                    <span class="input-group-btn">
+                                <button class="btn btn-default" onclick='SortComments($("a#anchorSortTopLikeComments"), 1);' type="button">Search</button>
+                            </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="srolldiv" class="col-xs-12" style="height: 500px; overflow: scroll; padding: 5px;">
+                <div id="commentDiv" class="bs-example" data-example-id="media-alignment">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-5" style="border: 1px solid #ddd;">
+        <div class="row">
+            <div class="col-xs-10 text-center">
+                <h5>Replies</h5>
+            </div>
+            <div class="col-xs-2" style="padding-top: 2px;">
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="repliesSortOrder" class="dropdown-menu pull-right" role="menu" style="cursor: pointer;">
+                            <li>
+                                <a id="anchorSortTopLikeReplies" data-toggle="tooltip" onclick="SortReplies(this, 1);" data-placement="top" title="Top Liked Replies">Top Liked</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tooltip" data-placement="top" onclick="SortReplies(this, 2);" title="Most Recent Replies">Most Recent</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tooltip" data-placement="top" onclick="SortReplies(this, 3);" title="Most Old Replies">Most Old</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="input-group" style="width: 100%;">
+                    <input id="txtSearchReplies" type="text" class="form-control" placeholder="Search Replies">
+                    <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" onclick="SortReplies(this, 1);" >Search</button>
+                                </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" style="height: 500px; overflow: scroll; padding: 5px;">
+                <div id="repliesDiv" class="bs-example" data-example-id="media-alignment">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<input type="hidden" value="2464275336928844_2464275893595455" name="hdnSelectedCommentId" id="hdnSelectedCommentId"/>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<script src="~/Components/wordcloud2.js-gh-pages/src/wordcloud2.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Finger+Paint" rel="stylesheet">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="~/Components/mustache.min.js"></script>
+<script src="~/Scripts/moment.min.js"></script>
+<script src="~/Components/jquery-loading-overlay-1.4.0/src/loadingoverlay.min.js"></script>
+<script src="https://twemoji.maxcdn.com/2/twemoji.min.js?2.2.2"></script>
+    <script src="~/Components/mark.js/jquery.mark.min.js"></script>
+    <script src="~/Components/mark.js/jquery.mark.es6.min.js"></script>
+<script type="text/javascript">
+
+
+   
+
+    SortComments($("a#anchorSortTopLikeComments"), 1);
+
+    function SortComments(ele, sorting) {
+
+        var srctext = $("#txtSearchComments").val();
+        $.ajax({
+            url: "/api/comments?order=" + sorting + "&search=" + srctext,
+            type: 'Get',
+            crossDomain: true,
+            dataType: 'json',
+            beforeSend: function() {
+                $("#commentDiv").LoadingOverlay("show");
+            },
+            complete: function() {
+                $("#commentDiv").LoadingOverlay("hide");
+            },
+            success: function(data) {
+                $('#commentDiv').html("");
+                var commentsTemplate = $('#templatecomments').html();
+                $.each(data, function(k, item) {
+                    var newItem = JSON.parse(JSON.stringify(item));
+                    newItem["index"] = k + 1;
+                    newItem["CreatedOn"] = moment(newItem["CreatedOn"]).format('MMMM DD [at] h:mm a');
+                    //newItem["Message"] = twemoji.parse(newItem["Message"],{className:"emoji"});
+                    //newItem["Message"] = escapeHTML(newItem["Message"])
+
+                    var commenthtml = Mustache.to_html(commentsTemplate, newItem);
+                    $('#commentDiv').append(commenthtml);
+                });
+            },
+            error: function(result) {
+                $("#commentSortOrder").LoadingOverlay("hide");
+            }
+        }).done(function() {
+            $("#commentSortOrder").children().removeClass("active");
+            $(ele).parent().addClass("active");
+            $.each($('#commentDiv').children(), function(index, item) {
+                var asd = $(item).find(".media-body p[name='paramessage']").html();
+                if (asd) {
+                    $(item).find(".media-body p[name='paramessage']").html(twemoji.parse(asd));
+                }
+            });
+
+            if (srctext !== "" || srctext) {
+                $('#commentDiv').find(".media-body p[name='paramessage']").mark(srctext,{className: "customMark"});
+            }
+
+        });
+
+    }
+
+
+    function SortReplies(ele, sorting) {
+
+        var selectedCommentId = $("#hdnSelectedCommentId").val();
+        var srctext = $("#txtSearchReplies").val();
+
+        if (selectedCommentId) {
+            $.ajax({
+                url: "/api/Replies?commentId=" + selectedCommentId + "&order=" + sorting + "&search=" + srctext,
+                type: 'Get',
+                crossDomain: true,
+                dataType: 'json',
+                beforeSend: function() {
+                    $("#repliesDiv").LoadingOverlay("show");
+                },
+                complete: function() {
+                    $("#repliesDiv").LoadingOverlay("hide");
+                },
+                success: function(data) {
+                    $('#repliesDiv').html("");
+                    var repliesTemplate = $('#templatereplies').html();
+                    $.each(data, function(k, item) {
+                        var newItem = JSON.parse(JSON.stringify(item));
+                        newItem["index"] = k + 1;
+                        newItem["CreatedOn"] = moment(newItem["CreatedOn"]).format('MMMM DD [at] h:mm a');
+                        // newItem["Message"] = twemoji.parse(newItem["Message"],{className:"emoji"});
+
+                        var replieshtml = Mustache.to_html(repliesTemplate, newItem);
+                        $('#repliesDiv').append(replieshtml);
+                    });
+                },
+                error: function(result) {
+                    $("#repliesSortOrder").LoadingOverlay("hide");
+                }
+            }).done(function() {
+                $("#repliesSortOrder").children().removeClass("active");
+                $(ele).parent().addClass("active");
+                $.each($('#repliesDiv').children(), function(index, item) {
+                    var asd = $(item).find(".media-body p[name='paramessage']").html();
+                    if (asd) {
+                        $(item).find(".media-body p[name='paramessage']").html(twemoji.parse(asd));
+                    }
+                });
+
+                if (srctext !== "" || srctext) {
+                    $('#repliesDiv').find(".media-body p[name='paramessage']").mark(srctext,{className: "customMark"});
+                }
+
+            });
+        }
+    }
+
+    function getCommentReplies(commentid) {
+        $("#hdnSelectedCommentId").val(commentid);
+        SortReplies("a#anchorSortTopLikeReplies", 1);
+    }
+
+
+    //div infinte scrolling
+    //$('#srolldiv').bind('scroll', function(){
+    //    if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight){
+    //        var new_div = '<div class="new_block">kinnan</div>';
+    //        $('.bs-example').append(new_div);
+    //    }
+    //});
+
+
+
+    @{
+        var str = "[";
+        foreach (var l in Model.Wordcloud)
+        {
+            str += "['" + l.Key + "'," + l.Value + "],";
+        }
+        str = str.Substring(0, str.Length - 1);
+        str += "];";
+    }
+
+    var wordCloudList = @Html.Raw(str);
+
+    @{
+        var tit = Model.Chartmonth.Keys.Max();
+        var ss = Model.Chartmonth.Keys.Min();
+
+        var aaa = " From  " + ss.Day + "/" + ss.Month + "/" + ss.Year + "  to  " + tit.Day + "/" + tit.Month + "/" + tit.Year;
+        var dstr = "[";
+        foreach (var l in Model.Chartmonth)
+        {
+            dstr += "[new Date(" + l.Key.Year + "," + (Convert.ToInt32(l.Key.Month) - 1) + "," + l.Key.Day + ")," + l.Value.Comments + "," + l.Value.Replies + "],";
+        }
+        dstr = dstr.Substring(0, dstr.Length - 1);
+        dstr += "];";
+    }
+
+    var wordCloudList1 = @Html.Raw(dstr);
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        // Define the chart to be drawn.
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'Day');
+        data.addColumn('number', 'Comments');
+        data.addColumn('number', 'Replies');
+
+        data.addRows(wordCloudList1);
+
+
+        var options = {
+            title: '@aaa',
+            titlePosition: 'out',
+            titleTextStyle: {
+                bold: true
+            },
+            width: 725,
+            height: 425,
+            axisTitlesPosition: 'out',
+            enableInteractivity: true,
+            chartArea: {
+                left: 55,
+                top: 25,
+                width: '70%',
+                height: '80%'
+                //backgroundColor:'green'
+            },
+            legend: {
+                position: 'right',
+                alignment: 'top',
+                textStyle: {
+                    bold: true
+                }
+            },
+            bar: {
+                groupWidth: '70%'
+            },
+            //focusTarget: 'category',
+            // colors: ['#e0440e', '#e6693e', '#ec8f6e'],
+            isStacked: true,
+            hAxis: {
+                maxAlternation: 15,
+                title: 'Days',
+                titleTextStyle: {
+                    color: 'black',
+                    bold: true,
+                    italic: false
+                },
+                //viewWindow: {
+                //    min: new Date(2016, 0, 1),
+                //    max: new Date(2016, 0, 29)
+                //},
+                gridlines: {
+                    count: 30
+                },
+                format: 'd MMM, yyyy'
+            },
+            vAxis: {
+                title: 'Count',
+                titleTextStyle: {
+                    color: 'black',
+                    bold: true,
+                    italic: false
+                },
+                format: 'long'
+                // ticks: [0, 50, 100]
+            },
+            explorer: {
+                maxZoomIn: .5,
+                maxZoomOut: .5,
+                axis: 'horizontal'
+            }
+        };
+
+        // Instantiate and draw the chart.
+        var chart = new google.visualization.ColumnChart(document.getElementById('myPieChart'));
+
+        // The select handler. Call the chart's getSelection() method
+        function selectHandler() {
+            var selectedItem = chart.getSelection()[0];
+            if (selectedItem) {
+                if (selectedItem.row && selectedItem.column) {
+                    console.log(selectedItem);
+                    var topping = data.getValue(selectedItem.row, selectedItem.column);
+                    alert('The user selected ' + topping);
+                }
+            }
+        }
+
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+
+        chart.draw(data, options);
+
+
+    }
+
+    var $box = $('<div id="box" hidden />');
+    $("#canvas-container").append($box);
+    window.drawBox = function drawBox(item, dimension) {
+        if (!dimension) {
+            $box.prop("hidden", true);
+
+            return;
+        }
+
+        var dppx = 1;
+
+        $box.prop("hidden", false);
+        $box.css({
+            left: dimension.x / dppx + "px",
+            top: dimension.y / dppx + "px",
+            width: dimension.w / dppx + "px",
+            height: dimension.h / dppx + "px"
+        });
+    };
+
+    //var wordCloudList = [
+    //    ["Web Technologies", 26],
+    //    ["HTML", 20],
+    //    ["<canvas>", 20],
+    //    ["CSS", 15],
+    //    ["JavaScript", 15],
+    //    ["Document Object Model", 12],
+    //    ["<audio>", 12],
+    //    ["<video>", 12],
+    //    ["Web Workers", 12],
+    //    ["XMLHttpRequest", 12],
+    //    ["SVG", 12],
+    //    ["JSON.parse()", 9],
+    //    ["Geolocation", 9],
+    //    ["data attribute", 9],
+    //    ["transform", 9],
+    //    ["transition", 9],
+    //    ["animation", 9],
+    //    ["setTimeout", 7],
+    //    ["font-face", 7],
+    //    ["Typed Arrays", 7],
+    //    ["FileReader API", 7],
+    //    ["FormData", 7],
+    //    ["IndexedDB", 7],
+    //    ["getUserMedia()", 7],
+    //    ["postMassage()", 7],
+    //    ["CORS", 7],
+    //    ["strict mode", 6],
+    //    ["calc()", 6],
+    //    ["supports()", 6],
+    //    ["media queries", 6],
+    //    ["full screen", 6],
+    //    ["notification", 6],
+    //    ["orientation", 6],
+    //    ["requestAnimationFrame", 6],
+    //    ["border-radius", 5],
+    //    ["box-sizing", 5],
+    //    ["rgba()", 5],
+    //    ["text-shadow", 5],
+    //    ["box-shadow", 5],
+    //    ["flexbox", 5],
+    //    ["viewpoint", 5]
+    //];
+
+    if (WordCloud.isSupported) {
+        WordCloud(document.getElementById('my_canvas'), {
+            list: wordCloudList,
+            gridSize: 7,
+            drawOutOfBound: false,
+            weightFactor: 3,
+            fontFamily: 'Finger Paint, cursive, sans-serif',
+            hover: window.drawBox,
+            click: function(item) {
+                alert(item[0] + ': ' + item[1]);
+            }
+        });
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+    }
+</script>
+<script id="templatecomments" type="text/template">
+        {{ #. }}
+        <div class="media">
+            <div class="media-left">
+                <h5>{{index}}</h5>
+            </div>
+            <div class="media-left">
+                <a target="blank" href="https://www.facebook.com/{{FromId}}">
+                    <img alt="64x64" class="media-object" data-src="holder.js/64x64" src="{{Frompic}}" data-holder-rendered="true" style="height: 64px; width: 64px;">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">
+                    <a target="blank" href="https://www.facebook.com/{{FromId}}"> {{FromName}}</a>
+                </h4>
+                <p name="paramessage">
+                    {{Message}}
+                </p>
+                {{#CommentAttachmentUrl}}
+                <p>
+
+                    <a target="blank" href="{{CommentAttachmentUrl}}">
+                        <img style="height:50%; width:50%;" src="{{CommentAttachmentUrl}}" />
+                    </a>
+
+                </p>
+                {{/CommentAttachmentUrl}}
+                <p class="media-bottom">
+                    <ul class="menu">
+                        <li>
+                            <button type="button" class="btn btn-default " data-toggle="tooltip" data-placement="top" title='This Comment is liked by {{Likes}} people.' aria-pressed="false" autocomplete="off">
+                                Like&nbsp;<div class="reaction-like" style="display: inline-block;"></div>&nbsp;{{Likes}}
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="getCommentReplies('{{CommentId}}')" type="button" class="btn btn-default " data-toggle="tooltip" data-placement="top" title="View Comment Replies" aria-pressed="false" autocomplete="off">
+                                Replies&nbsp;<div class="reaction-comments" style="display: inline-block;"></div>&nbsp;{{Replies}}
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                                <div style="display: inline-block;"></div>&nbsp;{{CreatedOn}}
+                            </button>
+                        </li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+        <hr />
+
+        {{ /. }}
+    </script>
+
+<script id="templatereplies" type="text/template">
+        {{ #. }}
+        <div class="media">
+            <div class="media-left">
+                <h5>{{index}}</h5>
+            </div>
+            <div class="media-left">
+                <a target="blank" href="https://www.facebook.com/{{FromId}}">
+                    <img alt="64x64" class="media-object" data-src="holder.js/64x64" src="{{Frompic}}" data-holder-rendered="true" style="height: 64px; width: 64px;">
+                </a>
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">
+                    <a target="blank" href="https://www.facebook.com/{{FromId}}"> {{FromName}}</a>
+                </h4>
+                <p name="paramessage">{{Message}}</p>
+                {{#CommentAttachmentUrl}}
+                <p>
+                    <a target="blank" href="{{CommentAttachmentUrl}}">
+                        <img style="height:50%; width:50%;" src="{{CommentAttachmentUrl}}" />
+                    </a>
+
+
+                </p>
+                {{/CommentAttachmentUrl}}
+                <p class="media-bottom">
+                    <ul class="menu">
+                        <li>
+                            <button type="button" class="btn btn-default " data-toggle="tooltip" data-placement="top" title='This Comment is liked by {{Likes}} people.' aria-pressed="false" autocomplete="off">
+                                Like&nbsp;<div class="reaction-like" style="display: inline-block;"></div>&nbsp;{{Likes}}
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                                <div style="display: inline-block;"></div>&nbsp;{{CreatedOn}}
+                            </button>
+                        </li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+        <hr />
+
+        {{ /. }}
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+﻿using System.Web.Mvc;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class AdminLayoutController : Controller
+    {
+        // GET: AdminLayout
+        public ActionResult Boxed()
+        {
+            return View();
+        }
+
+        // GET: AdminLayout
+        public ActionResult Collapsedsidebar()
+        {
+            return View();
+        }
+
+        // GET: AdminLayout
+        public ActionResult Fixed()
+        {
+            return View();
+        }
+
+        // GET: AdminLayout
+        public ActionResult Topnav()
+        {
+            return View();
+        }
+    }
+}

@@ -1,0 +1,403 @@
+﻿@model Comments.Web.Models.FacebookPostViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style type="text/css">
+        body, .navbar-default { background-color: white !important; }
+
+        .panel-footer, .panel-heading {
+            padding-bottom: 5px !important;
+            padding-left: 5px !important;
+            padding-right: 5px !important;
+            padding-top: 5px !important;
+        }
+
+        .facebooksaveicon {
+            background-image: url('../../Content/save.png');
+            background-position: 0 -34px;
+            background-repeat: no-repeat;
+            background-size: auto;
+            display: inline-block;
+            height: 16px;
+            left: -22px;
+            width: 16px;
+        }
+
+        .grid-item { width: 45%; }
+
+        .panel-footer, .panel-default > .panel-heading { background-color: white !important; }
+
+        .reaction-like, .reaction-wow, .reaction-haha, .reaction-love, .reaction-angry, .reaction-sad, .reaction-shares, .reaction-comments {
+            background-image: url('../../Content/Images/reaction.png');
+            background-repeat: no-repeat;
+        }
+
+        .reaction-wow {
+            background-position: -17px -146px;
+            height: 16px;
+            position: relative;
+            top: 3px;
+            width: 16px;
+        }
+
+        .reaction-like {
+            background-position: 0px -130px;
+            height: 16px;
+            position: relative;
+            top: 3px;
+            width: 16px;
+        }
+
+        .reaction-love {
+            background-position: -17px -130px;
+            height: 16px;
+            position: relative;
+            top: 3px;
+            width: 16px;
+        }
+
+        .reaction-haha {
+            background-position: -34px -113px;
+            height: 16px;
+            position: relative;
+            top: 3px;
+            width: 16px;
+        }
+
+        .reaction-angry {
+            background-position: -34px -96px;
+            height: 16px;
+            position: relative;
+            top: 3px;
+            width: 16px;
+        }
+
+
+        .reaction-sad {
+            background-position: -34px -130px;
+            height: 16px;
+            position: relative;
+            top: 3px;
+            width: 16px;
+        }
+
+        .reaction-shares {
+            background-position: -47px -178px;
+            height: 16px;
+            position: relative;
+            top: 3px;
+            width: 16px;
+        }
+
+        .reaction-comments {
+            background-position: -32px -162px;
+            height: 16px;
+            position: relative;
+            top: 3px;
+            width: 16px;
+        }
+        ul.menu li { display: inline-block; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<div class="row">
+<div class="col-lg-6">
+    <div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#General" aria-controls="home" role="tab" data-toggle="tab">General</a>
+            </li>
+            <li role="presentation">
+                <a href="#WordGraph" aria-controls="profile" role="tab" data-toggle="tab">Common Words</a>
+            </li>
+            <li role="presentation">
+                <a href="#Media" aria-controls="messages" role="tab" data-toggle="tab">Media</a>
+            </li>
+            <li role="presentation">
+                <a href="#Emoji" aria-controls="messages" role="tab" data-toggle="tab">Emoji</a>
+            </li>
+            <li role="presentation">
+                <a href="#TimeLine" aria-controls="settings" role="tab" data-toggle="tab">TimeLine</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="General" style="border: 1px solid #ddd; border-top: none;">
+                <ul class="menu">
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-shares" style="display: inline-block;"></div> &nbsp;&nbsp;Shares @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-comments" style="display: inline-block;"></div> &nbsp;&nbsp; Comments @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            People in Converstaion @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Most Active User @Html.Label("10")
+                        </button>
+                    </li>
+                </ul>
+                <h4>Reactions</h4>
+
+                <ul class="menu">
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-like" style="display: inline-block;"></div> &nbsp;&nbsp;Like @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-love" style="display: inline-block;"></div> &nbsp;&nbsp;Love @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-haha" style="display: inline-block;"></div> &nbsp;&nbsp;Haha @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-wow" style="display: inline-block;"></div> &nbsp;&nbsp;Wow @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-angry" style="display: inline-block;"></div> &nbsp;&nbsp;Angry @Html.Label("10")
+                        </button>
+                    </li>
+
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-sad" style="display: inline-block;"></div> &nbsp;&nbsp;Sad @Html.Label("10")
+                        </button>
+                    </li>
+                </ul>
+
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="WordGraph" style="border: 1px solid #ddd; border-top: none;">
+
+
+                <canvas id="my_canvas" width="450" height="450" class="canvas"></canvas>
+
+
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="Media" style="border: 1px solid #ddd; border-top: none;">
+                Media
+            </div>
+            <div role="tabpanel" class="tab-pane" id="Emoji" style="border: 1px solid #ddd; border-top: none;">
+                Emoji 20
+
+            </div>
+            <div role="tabpanel" class="tab-pane" id="TimeLine" style="border: 1px solid #ddd; border-top: none;">
+                TimeLine
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="col-lg-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a href="https://www.facebook.com/@Model.FromId" target="_blank" data-toggle="tooltip" data-placement="top" title="View Page on Facebook" style="color: #365899; cursor: pointer; font-weight: bold;">@Model.FromName</a>
+            <a href="https://www.facebook.com/@Model.Postid" target="_blank" data-toggle="tooltip" data-placement="top" title="View Post on Facebook" style="color: #365899; cursor: pointer; font-weight: bold; text-decoration: none;">&nbsp;&nbsp;&nbsp;<i class="fa fa-facebook"></i></a>
+            @if (!string.IsNullOrEmpty(Model.Story))
+            {
+                <span data-toggle="tooltip" data-placement="top" title="Story" style="color: #999; text-align: left;">
+                                <br />
+                                @Model.Story
+                            </span>
+            }
+            <span data-toggle="tooltip" data-placement="top" title="Post Created on Facebook" style="color: #999; text-align: left;">
+                            <br />
+                            @{
+                                var dt = Convert.ToDateTime(Model.CreatedTime);
+                            }
+                            @string.Format("{0:t}", dt) - @string.Format("{0:d MMMM yyyy}", dt)
+                        </span>
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div style="font-size: 14px; font-weight: normal; line-height: 1.38; overflow: hidden; overflow-x: hidden; overflow-y: hidden;">
+                    <article>
+                        @Html.Label(Model.Message)
+                    </article>
+                </div>
+            }
+            <div style="border: solid 1px #ddd;">
+                @{
+                    var url = "";
+                    if (!string.IsNullOrEmpty(Model.Link))
+                    {
+                        url = Model.Link;
+                    }
+                }
+                <a href="@url" target="_blank">
+
+                    @if (!string.IsNullOrEmpty(Model.FullPicture))
+                    {
+                        <img class="img-responsive img-rounded" src="@Model.FullPicture"/>
+                    }
+                    <div style="font-size: 18px; font-weight: 500; line-height: 22px; margin: 10px 12px; margin-bottom: 5px; max-height: 110px; overflow: hidden; word-wrap: break-word;">
+                        <a style="color: black; cursor: pointer;" href="@url" target="_blank">
+                            @Model.Message
+                        </a>
+                    </div>
+
+                </a>
+            </div>
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <div style="font-size: 14px; font-weight: normal; line-height: 1.38; overflow: hidden; overflow-x: hidden; overflow-y: hidden;">
+                    <p>
+                        <article>
+                            @Html.Label(Model.Description)
+                        </article>
+                    </p>
+                </div>
+            }
+
+            <hr style="margin-bottom: 2px !important; margin-top: 2px !important;"/>
+            <p>
+                @*<ul id="menu">
+                                    <li data-toggle="tooltip" data-placement="top" title="@string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Likes) Likes">
+                                        <div class="reaction-like" style="display: inline-block;"></div>
+                                        @string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Likes)
+                                    </li>
+                                    <li data-toggle="tooltip" data-placement="top" title="@string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Wow) Wow">
+                                        <div class="reaction-wow" style="display: inline-block;"></div>
+                                        @string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Wow)
+                                    </li>
+                                    <li data-toggle="tooltip" data-placement="top" title="@string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Love) Love">
+                                        <div class="reaction-love" style="display: inline-block;"></div>
+                                        @string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Love)
+                                    </li>
+                                    <li data-toggle="tooltip" data-placement="top" title="@string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Haha) Haha">
+                                        <div class="reaction-haha" style="display: inline-block;"></div>
+                                        @string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Haha)
+                                    </li>
+                                    <li data-toggle="tooltip" data-placement="top" title="@string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Angry) Angry">
+                                        <div class="reaction-angry" style="display: inline-block;"></div>
+                                        @string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Angry)
+                                    </li>
+                                    <li data-toggle="tooltip" data-placement="top" title="@string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Sad) Sad">
+                                        <div class="reaction-sad" style="display: inline-block;"></div>
+                                        @string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Sad)
+                                    </li>
+                                    <li data-toggle="tooltip" data-placement="top" title="@string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Shares) Shares">
+                                        <div class="reaction-shares" style="display: inline-block;"></div>
+                                        @string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Shares)
+                                    </li>
+                                    <li data-toggle="tooltip" data-placement="top" title="@string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Comments) Comments">
+                                        <div class="reaction-comments" style="display: inline-block;"></div>
+                                        @string.Format(CultureInfo.InvariantCulture, "{0:N0}", Model.Comments)
+                                    </li>
+                                </ul>*@
+            </p>
+
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+
+</div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        comments
+    </div>
+</div>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script src="~/Components/wordcloud2.js-gh-pages/src/wordcloud2.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Finger+Paint" rel="stylesheet">
+
+<script type="text/javascript">
+
+    if (WordCloud.isSupported) {
+        WordCloud(document.getElementById('my_canvas'), {
+            list: [
+                ["Web Technologies", 26],
+                ["HTML", 20],
+                ["<canvas>", 20],
+                ["CSS", 15],
+                ["JavaScript", 15],
+                ["Document Object Model", 12],
+                ["<audio>", 12],
+                ["<video>", 12],
+                ["Web Workers", 12],
+                ["XMLHttpRequest", 12],
+                ["SVG", 12],
+                ["JSON.parse()", 9],
+                ["Geolocation", 9],
+                ["data attribute", 9],
+                ["transform", 9],
+                ["transition", 9],
+                ["animation", 9],
+                ["setTimeout", 7],
+                ["font-face", 7],
+                ["Typed Arrays", 7],
+                ["FileReader API", 7],
+                ["FormData", 7],
+                ["IndexedDB", 7],
+                ["getUserMedia()", 7],
+                ["postMassage()", 7],
+                ["CORS", 7],
+                ["strict mode", 6],
+                ["calc()", 6],
+                ["supports()", 6],
+                ["media queries", 6],
+                ["full screen", 6],
+                ["notification", 6],
+                ["orientation", 6],
+                ["requestAnimationFrame", 6],
+                ["border-radius", 5],
+                ["box-sizing", 5],
+                ["rgba()", 5],
+                ["text-shadow", 5],
+                ["box-shadow", 5],
+                ["flexbox", 5],
+                ["viewpoint", 5]
+            ],
+            gridSize: 7,
+            drawOutOfBound: false,
+            weightFactor: 3,
+            fontFamily: 'Finger Paint, cursive, sans-serif',
+            hover: window.drawBox,
+            click: function(item) {
+                alert(item[0] + ': ' + item[1]);
+            }
+        });
+
+
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\bin\Debug\Comments.Facebook.dll.config
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\bin\Debug\Comments.Facebook.dll
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\bin\Debug\Comments.Facebook.pdb
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\bin\Debug\Comments.Facebook.Model.dll
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\bin\Debug\EntityFramework.dll
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\bin\Debug\EntityFramework.SqlServer.dll
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\bin\Debug\log4net.dll
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\bin\Debug\Newtonsoft.Json.dll
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\bin\Debug\Comments.Facebook.Model.pdb
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\bin\Debug\EntityFramework.xml
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\bin\Debug\EntityFramework.SqlServer.xml
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\bin\Debug\log4net.xml
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\bin\Debug\Newtonsoft.Json.xml
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\obj\Debug\Comments.Facebook.csprojResolveAssemblyReference.cache
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\obj\Debug\Comments.Facebook.dll
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook\obj\Debug\Comments.Facebook.pdb

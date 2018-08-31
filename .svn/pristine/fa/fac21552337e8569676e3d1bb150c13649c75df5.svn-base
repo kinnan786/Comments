@@ -1,0 +1,68 @@
+﻿using System.Web.Mvc;
+using Comments.Facebook;
+using Comments.Web.Models;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class CommentsController : Controller
+    {
+        // GET: Comments
+        public ActionResult Index(string id)
+        {
+            ViewData["id"] = id;
+
+
+            var facebookComments = new FacebookPost();
+
+            var postid = "146505212039213_2464275336928844";
+            var acccessoken =
+                "EAACEdEose0cBACdtZB9WceN0NZAXJy6ZAERvZAIFWYEL2cZCFPdZBAS7OaZAEF2lx6lp4cNZB987c9rNhrSyZAdFZAj7eTamfSPROPZBy0XWnhJaZBoUKZBVUwgFAkd3wOIK7myy3hjEyGg0ZBuobdnobsiGfpJZBxm5ztRwqSXonyFtoxxTQZDZD";
+
+            var facebookreactions = facebookComments.GetFacebookPostReactions(postid, acccessoken);
+            var facebookposts = facebookComments.GetFacebookPost(postid, acccessoken);
+
+            var model = new FacebookPostViewModel();
+
+            model.CreatedTime = facebookposts.created_time;
+            //model.CreatedTime = facebookposts.admin_creator;
+            //model.CreatedTime = facebookposts.application;
+            //model.CreatedTime = facebookposts.caption;
+            model.Description = facebookposts.description;
+            //model.CreatedTime = facebookposts.from;
+            //model.CreatedTime =facebookposts.icon;
+            model.Postid = facebookposts.id;
+            //model.CreatedTime =facebookposts.instagram_eligibility;
+            //model.CreatedTime =facebookposts.is_hidden;
+            //model.CreatedTime =facebookposts.is_published;
+            model.Link = facebookposts.link;
+            model.Message = facebookposts.message;
+            //model.CreatedTime =facebookposts.message_tags;
+            //model.CreatedTime =facebookposts.from;
+            //model.CreatedTime =facebookposts.name;
+            //model.CreatedTime =facebookposts.updated_time;
+            model.Type = facebookposts.type;
+            model.Story = facebookposts.story;
+            model.StatusType = facebookposts.status_type;
+            //model.CreatedTime =facebookposts.properties;
+            //model.CreatedTime =facebookposts.privacy;
+            //model.CreatedTime =facebookposts.place;
+            //model.CreatedTime =facebookposts.picture;
+            //model.CreatedTime =facebookposts.permalink_url;
+
+
+            model.Angry = facebookreactions.angry.summary.total_count;
+            model.Haha = facebookreactions.haha.summary.total_count;
+            model.Likes = facebookreactions.like.summary.total_count;
+            model.Love = facebookreactions.love.summary.total_count;
+            model.Sad = facebookreactions.sad.summary.total_count;
+            model.Wow = facebookreactions.wow.summary.total_count;
+            model.Thankful = facebookreactions.thankful.summary.total_count;
+            model.Shares = facebookreactions.shares.count;
+
+
+            Session["asda"] = model;
+
+            return View();
+        }
+    }
+}

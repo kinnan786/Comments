@@ -1,0 +1,7 @@
+D:\Box Sync\Box Sync\Projects\Comments\CommentsNLTK\bin\Microsoft.PythonTools.WebRole.dll
+D:\Box Sync\Box Sync\Projects\Comments\CommentsNLTK\bin\AzureSetup.cfg
+D:\Box Sync\Box Sync\Projects\Comments\CommentsNLTK\bin\Microsoft.PythonTools.AzureSetup.exe
+D:\Box Sync\Box Sync\Projects\Comments\CommentsNLTK\bin\Microsoft.PythonTools.AzureSetup.exe.config
+D:\Box Sync\Box Sync\Projects\Comments\CommentsNLTK\bin\wfastcgi.py
+D:\Box Sync\Box Sync\Projects\Comments\CommentsNLTK\obj\Release\web.config
+D:\Box Sync\Box Sync\Projects\Comments\CommentsNLTK\obj\Release\web.debug.config

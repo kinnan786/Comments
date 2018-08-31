@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChromeExtension", "ChromeExtension", "{3DD20240-3C89-460F-BA8E-2C8564B97722}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comments.Facebook", "Comments.Facebook\Comments.Facebook.csproj", "{126209FF-0C2F-4EF1-BE1E-81D73A2B1897}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comments.Web", "Comments.Web\Comments.Web.csproj", "{76182132-6F59-4C8E-ACB4-D7AB12C0F556}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comments.Facebook.Model", "Comments.Facebook.Model\Comments.Facebook.Model.csproj", "{3E85F05B-ECB3-48D1-B644-62FDAE9634D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comments.Console", "Comments.Console\Comments.Console.csproj", "{5287E952-6FAA-41A3-B7AB-B2D1529D32C8}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CommentsNLTK", "CommentsNLTK\CommentsNLTK.pyproj", "{211A9915-7F2B-49DC-89D7-26589F367070}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comments.StanfordNLP", "Comments.StanfordNLP\Comments.StanfordNLP.csproj", "{DA03DE2C-D9D1-4DD1-94AB-29D7E6B8F3B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comments.Data", "Comments.Data\Comments.Data.csproj", "{86C92682-BA41-4C19-9667-6AD1DC1022AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{126209FF-0C2F-4EF1-BE1E-81D73A2B1897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{126209FF-0C2F-4EF1-BE1E-81D73A2B1897}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{126209FF-0C2F-4EF1-BE1E-81D73A2B1897}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{126209FF-0C2F-4EF1-BE1E-81D73A2B1897}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76182132-6F59-4C8E-ACB4-D7AB12C0F556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76182132-6F59-4C8E-ACB4-D7AB12C0F556}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76182132-6F59-4C8E-ACB4-D7AB12C0F556}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76182132-6F59-4C8E-ACB4-D7AB12C0F556}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E85F05B-ECB3-48D1-B644-62FDAE9634D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E85F05B-ECB3-48D1-B644-62FDAE9634D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E85F05B-ECB3-48D1-B644-62FDAE9634D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E85F05B-ECB3-48D1-B644-62FDAE9634D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5287E952-6FAA-41A3-B7AB-B2D1529D32C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5287E952-6FAA-41A3-B7AB-B2D1529D32C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5287E952-6FAA-41A3-B7AB-B2D1529D32C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5287E952-6FAA-41A3-B7AB-B2D1529D32C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{211A9915-7F2B-49DC-89D7-26589F367070}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{211A9915-7F2B-49DC-89D7-26589F367070}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{211A9915-7F2B-49DC-89D7-26589F367070}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{211A9915-7F2B-49DC-89D7-26589F367070}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA03DE2C-D9D1-4DD1-94AB-29D7E6B8F3B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA03DE2C-D9D1-4DD1-94AB-29D7E6B8F3B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA03DE2C-D9D1-4DD1-94AB-29D7E6B8F3B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA03DE2C-D9D1-4DD1-94AB-29D7E6B8F3B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86C92682-BA41-4C19-9667-6AD1DC1022AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86C92682-BA41-4C19-9667-6AD1DC1022AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86C92682-BA41-4C19-9667-6AD1DC1022AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86C92682-BA41-4C19-9667-6AD1DC1022AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

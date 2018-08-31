@@ -1,0 +1,66 @@
+﻿namespace Comments.Facebook
+{
+    public class GraphApi
+    {
+        public string Accesstoken;
+        public string Enddate;
+        public string Pageid;
+        public string Pagging;
+        public string Startdate;
+
+        public GraphApi(string startdate, string enddate, string accesstoken, string pageid, string pagging)
+        {
+            Startdate = startdate;
+            Enddate = enddate;
+            Accesstoken = accesstoken;
+            Pageid = pageid;
+            Pagging = pagging;
+        }
+
+        public GraphApi(string accesstoken)
+        {
+            Accesstoken = accesstoken;
+        }
+
+        public string PostsUrl(string thisPageid, string postid)
+        {
+            return FacebookSettings.Url + thisPageid + "_" + postid +
+                   "?fields=full_picture,status_type,type,story,source,shares,picture,parent_id,object_id,name,message,link,caption,from,id,created_time,description" +
+                   "&access_token=" + Accesstoken;
+        }
+
+        public string PagePostsUrl()
+        {
+            return FacebookSettings.Url + Pageid +
+                   "/posts?fields=object_id,source,link,type,message,story,created_time,id" +
+                   "&limit=" + Pagging + "&since=" + Startdate + "&until=" + Enddate + "&access_token=" + Accesstoken;
+        }
+
+        public string PostsReactionsUrl(string postid)
+        {
+            return FacebookSettings.Url + postid +
+                   "/?fields=shares,comments.limit(1).summary(true),reactions.type(LIKE).limit(0).summary(true).as(like)," +
+                   "reactions.type(LOVE).limit(0).summary(true).as(love),reactions.type(WOW).limit(0).summary(true).as(wow)," +
+                   "reactions.type(HAHA).limit(0).summary(true).as(haha),reactions.type(SAD).limit(0).summary(true).as(sad)," +
+                   "reactions.type(ANGRY).limit(0).summary(true).as(angry),reactions.type(THANKFUL).limit(0).summary(true).as(thankful)" +
+                   "&access_token=" + Accesstoken;
+        }
+
+
+        public string PostComments(string postId)
+        {
+            return FacebookSettings.Url + "/" + postId + "/comments?limit=500&access_token=69" + Accesstoken;
+        }
+
+
+        public string PostsImages_Url(string objectId)
+        {
+            return FacebookSettings.Url + objectId + "/?fields=images,picture&access_token=" + Accesstoken;
+        }
+
+        public string Page_or_User_Url(string pageid)
+        {
+            return FacebookSettings.Url + pageid + "/?fields=id,name&access_token=" + Accesstoken;
+        }
+    }
+}

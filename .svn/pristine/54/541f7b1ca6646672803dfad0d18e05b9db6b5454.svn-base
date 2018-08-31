@@ -1,0 +1,246 @@
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
+using Comments.Facebook;
+using Comments.Facebook.Model;
+using Comments.Web.DbContext;
+using Comments.Web.Models;
+using Facebook;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class LoginController : Controller
+    {
+        private Uri RedirectUri
+        {
+            get
+            {
+                var uriBuilder = new UriBuilder(Request.Url)
+                {
+                    Query = null,
+                    Fragment = null,
+                    // ReSharper disable once AssignNullToNotNullAttribute
+                    Path = Url.Action("FacebookCallback")
+                };
+                return uriBuilder.Uri;
+            }
+        }
+
+        public ActionResult FacebookCallback(string code)
+        {
+            try
+            {
+                var facebookClient = new FacebookClient();
+
+                dynamic result = facebookClient.Post("oauth/access_token", new
+                {
+                    client_id = FacebookSettings.ClientId,
+                    client_secret = FacebookSettings.ClientSecret,
+                    redirect_uri = RedirectUri.AbsoluteUri,
+                    code
+                });
+
+                facebookClient.AccessToken = result.access_token;
+
+                // Get the user's information
+                dynamic userInfo = facebookClient.Get("me?fields=first_name,last_name,id,email");
+
+                string email = userInfo.email;
+                string id = userInfo.id;
+                string firstName = userInfo.first_name;
+
+                var model = new Users
+                {
+                    email = email,
+                    facebookid = id,
+                    name = firstName
+                };
+
+                var userModelExits = WebUow.Instance.RepoOf<Users>()
+                    .Get(q => q.facebookid == model.facebookid).SingleOrDefault();
+
+
+                if (userModelExits == null)
+                {
+                    userModelExits = new Users
+                    {
+                        name = model.name,
+                        facebookid = model.facebookid,
+                        email = model.email,
+                        datecreated = DateTime.Now,
+                        lastlogin = DateTime.Now
+                    };
+
+                    WebUow.Instance.RepoOf<Users>().Add(userModelExits, true);
+
+
+                    var facebooktemptoken = new FacebookAccessToken
+                    {
+                        Fuserid = model.facebookid,
+                        accesstoken = facebookClient.AccessToken,
+                        userid = userModelExits.Id,
+                        generatedon = DateTime.Now
+                    };
+
+                    WebUow.Instance.RepoOf<FacebookAccessToken>().Add(facebooktemptoken, true);
+
+
+                    var userId = userModelExits.Id.ToString();
+
+
+                    var ticket = new FormsAuthenticationTicket(1,
+                        id,
+                        DateTime.Now,
+                        DateTime.Now.AddDays(360),
+                        true,
+                        userId,
+                        FormsAuthentication.FormsCookiePath);
+
+                    // Encrypt the ticket.
+                    var encTicket = FormsAuthentication.Encrypt(ticket);
+
+                    var nawaz = new HttpCookie(FormsAuthentication.FormsCookieName)
+                    {
+                        Value = encTicket,
+                        Expires = DateTime.Now.AddDays(360)
+                        // Secure = true,
+                        // HttpOnly = true
+                    };
+
+                    ControllerContext.HttpContext.Response.Cookies.Add(nawaz);
+                }
+                else
+                {
+                    userModelExits.lastlogin = DateTime.Now;
+                    WebUow.Instance.RepoOf<Users>().Update(userModelExits, true);
+
+                    var userId = userModelExits.Id;
+
+                    var ticket = new FormsAuthenticationTicket(1,
+                        id,
+                        DateTime.Now,
+                        DateTime.Now.AddDays(360),
+                        true,
+                        userId.ToString(),
+                        FormsAuthentication.FormsCookiePath);
+
+                    // Encrypt the ticket.
+                    var encTicket = FormsAuthentication.Encrypt(ticket);
+
+                    var nawaz = new HttpCookie(FormsAuthentication.FormsCookieName)
+                    {
+                        Value = encTicket,
+                        Expires = DateTime.Now.AddDays(360)
+                        //Secure = true,
+                        //HttpOnly = true
+                    };
+                    ControllerContext.HttpContext.Response.Cookies.Add(nawaz);
+                }
+
+                var token = WebUow.Instance.RepoOf<FacebookAccessToken>().Get(q => q.Fuserid == id).SingleOrDefault();
+
+                if (token != null)
+                {
+                    if (token.generatedon != null)
+                    {
+                        if (token.expiry != null)
+                        {
+                            var expireDate = token.generatedon.Value.AddSeconds(token.expiry.Value);
+
+                            var res = DateTime.Compare(expireDate, DateTime.Now);
+
+                            //Expired
+                            if (res <= 0)
+                            {
+                                var facebookClient1 = new FacebookClient();
+
+                                dynamic result1 = facebookClient1.Post("oauth/access_token", new
+                                {
+                                    grant_type = "fb_exchange_token",
+                                    client_id = FacebookSettings.ClientId,
+                                    client_secret = FacebookSettings.ClientSecret,
+                                    fb_exchange_token = facebookClient.AccessToken
+                                });
+                                token.accesstoken = result1.access_token;
+                                token.expiry = int.Parse(result1.expires.ToString());
+                                token.generatedon = DateTime.Now;
+                                token.Fuserid = id;
+                                token.userid = userModelExits.Id;
+                                WebUow.Instance.RepoOf<FacebookAccessToken>().Update(token, true);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    token = new FacebookAccessToken();
+                    var facebookClient1 = new FacebookClient();
+
+                    dynamic result1 = facebookClient1.Post("oauth/access_token", new
+                    {
+                        grant_type = "fb_exchange_token",
+                        client_id = FacebookSettings.ClientId,
+                        client_secret = FacebookSettings.ClientSecret,
+                        fb_exchange_token = facebookClient.AccessToken
+                    });
+
+                    token.accesstoken = result1.access_token;
+                    token.expiry = int.Parse(result1.expires.ToString());
+                    token.generatedon = DateTime.Now;
+                    token.Fuserid = id;
+                    token.userid = userModelExits.Id;
+                    WebUow.Instance.RepoOf<FacebookAccessToken>().Add(token, true);
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                if (User.Identity.IsAuthenticated)
+                    FormsAuthentication.SignOut();
+                return View("Error");
+            }
+        }
+
+        public ActionResult Facebook()
+        {
+            try
+            {
+                var facebookClient = new FacebookClient();
+                var loginUrl = facebookClient.GetLoginUrl(new
+                {
+                    client_id = FacebookSettings.ClientId,
+                    client_secret = FacebookSettings.ClientSecret,
+                    redirect_uri = RedirectUri.AbsoluteUri,
+                    response_type = "code",
+                    scope = "email" // Add other permissions as needed
+                });
+
+                return Redirect(loginUrl.AbsoluteUri);
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Index()
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                return View(new LoginViewModel());
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+    }
+}

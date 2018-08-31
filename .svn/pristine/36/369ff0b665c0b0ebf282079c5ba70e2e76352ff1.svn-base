@@ -1,0 +1,24 @@
+﻿@model Comments.Web.Models.LoginViewModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<style type="text/css">
+    html > body .centered {
+        left: 32%;
+        position: fixed; /* or absolute */
+        top: 32%;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="centered">
+                <a href="@Url.Action("Facebook")">
+                    <img class="img-responsive" src="~/Content/images/login-with-facebook.png"/>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>

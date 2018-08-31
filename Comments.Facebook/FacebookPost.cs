@@ -1,0 +1,239 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Script.Serialization;
+using Comments.Facebook.Model;
+
+namespace Comments.Facebook
+{
+    public class FacebookPost
+    {
+        private List<FacebookComment> GetAllFacebookPostComments(string postId, string accesstoken)
+        {
+            var facebookCommentserror = new FacebookError();
+            var serializer = new JavaScriptSerializer();
+            string response = null;
+            try
+            {
+                var lstFacebookComments = new List<FacebookComment>();
+
+
+                var graphapi = new GraphApi(accesstoken);
+                var graphapiurl = graphapi.PostComments(postId);
+
+                var res = new GraphApiResponse();
+                response = res.GetResponse(graphapiurl);
+
+
+                //check if there is any error 
+                var facebookCommentsDataset = serializer.Deserialize<FacebookComments>(response);
+
+                if (facebookCommentsDataset.data == null)
+                {
+                    facebookCommentserror = serializer.Deserialize<FacebookError>(response);
+
+                    if (facebookCommentserror.error != null)
+                    {
+                        // Login status or access token has expired, been revoked, or is otherwise invalid. Handle expired access tokens.
+                        // Access token has expired
+                        if (facebookCommentserror.error.code == "190" &&
+                            facebookCommentserror.error.error_subcode == "463")
+                        {
+                            //Get new Access Token
+                        }
+                        // The After Cursor specified exceeds the max limit supported by this endpoint
+                        else if (facebookCommentserror.error.code == "100")
+                        {
+                        }
+                    }
+                }
+                else
+                {
+                    //no error from facebook
+                    string next = null;
+                    do
+                    {
+                        if (facebookCommentsDataset.data != null)
+                        {
+                            lstFacebookComments.AddRange(facebookCommentsDataset.data);
+                        }
+
+                        if (facebookCommentsDataset.paging != null)
+                        {
+                            if (!string.IsNullOrEmpty(facebookCommentsDataset.paging.next))
+                            {
+                                next = facebookCommentsDataset.paging.next;
+                                response = res.GetResponse(next);
+                                facebookCommentsDataset = serializer.Deserialize<FacebookComments>(response);
+                                if (facebookCommentsDataset.data == null)
+                                {
+                                    facebookCommentserror = serializer.Deserialize<FacebookError>(response);
+
+                                    if (facebookCommentserror.error != null)
+                                    {
+                                        // Login status or access token has expired, been revoked, or is otherwise invalid. Handle expired access tokens.
+                                        // Access token has expired
+                                        if (facebookCommentserror.error.code == "190" &&
+                                            facebookCommentserror.error.error_subcode == "463")
+                                        {
+                                            //Get new Access Token
+                                            //than start from where left off
+                                        }
+                                        // The After Cursor specified exceeds the max limit supported by this endpoint
+                                        else if (facebookCommentserror.error.code == "100")
+                                        {
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                next = null;
+                            }
+                        }
+                    } while (next != null);
+                }
+                return lstFacebookComments;
+            }
+            catch (Exception ex)
+            {
+                if (response != null)
+                {
+                    facebookCommentserror = serializer.Deserialize<FacebookError>(response);
+
+                    if (facebookCommentserror.error != null)
+                    {
+                        // Login status or access token has expired, been revoked, or is otherwise invalid. Handle expired access tokens.
+                        // Access token has expired
+                        if (facebookCommentserror.error.code == "190" &&
+                            facebookCommentserror.error.error_subcode == "463")
+                        {
+                            //Get new Access Token
+                            //than start from where left off
+                        }
+                        // The After Cursor specified exceeds the max limit supported by this endpoint
+                        else if (facebookCommentserror.error.code == "100")
+                        {
+                        }
+                    }
+                }
+
+                throw ex;
+            }
+        }
+
+        private List<FacebookComment> GetAllFacebookReplies(List<FacebookComment> lstfacebookComments)
+        {
+            try
+            {
+                var serializer = new JavaScriptSerializer();
+                var res = new GraphApiResponse();
+                var next = "";
+                foreach (var facebookComment in lstfacebookComments)
+                {
+                    if (facebookComment.comments != null)
+                    {
+                        if (facebookComment.comments.paging != null)
+                        {
+                            if (facebookComment.comments.paging.next != null)
+                            {
+                                next = facebookComment.comments.paging.next;
+                                var response = res.GetResponse(next);
+
+                                var facebookReplies = serializer.Deserialize<FacebookComments>(response);
+                                facebookComment.comments.data.ToList().AddRange(facebookReplies.data);
+                            }
+                        }
+                    }
+                }
+                return lstfacebookComments;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public List<FacebookComment> GetAllCommentsAndReplies(string postId, string accesstoken)
+        {
+            try
+            {
+                var facebookcomments = GetAllFacebookPostComments(postId, accesstoken);
+                var commentsandreplies = GetAllFacebookReplies(facebookcomments);
+
+                return commentsandreplies;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public Model.FacebookPost GetFacebookPost(string postId, string accesstoken)
+        {
+            try
+            {
+                var facebookpost = new Model.FacebookPost();
+                var facebookCommentserror = new FacebookError();
+
+                var graphapi = new GraphApi(accesstoken);
+                var graphapiurl = graphapi.PostsUrl(postId);
+
+                var res = new GraphApiResponse();
+                var response = res.GetResponse(graphapiurl);
+
+                var serializer = new JavaScriptSerializer();
+                facebookpost = serializer.Deserialize<Model.FacebookPost>(response);
+
+                if (facebookpost == null)
+                {
+                    facebookCommentserror = serializer.Deserialize<FacebookError>(response);
+
+                    if (facebookCommentserror.error != null)
+                    {
+                        // Login status or access token has expired, been revoked, or is otherwise invalid. Handle expired access tokens.
+                        // Access token has expired
+                        if (facebookCommentserror.error.code == "190" &&
+                            facebookCommentserror.error.error_subcode == "463")
+                        {
+                            //Get new Access Token
+                        }
+                    }
+                }
+                return facebookpost;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public object GetFacebookPostReactions(string postId, string accesstoken)
+        {
+            try
+            {
+                var graphapi = new GraphApi(accesstoken);
+                var graphapiurl = graphapi.PostsReactionsUrl(postId);
+
+                var res = new GraphApiResponse();
+                var response = res.GetResponse(graphapiurl);
+
+                var serializer = new JavaScriptSerializer();
+                var facebookpostreactions = serializer.Deserialize<FacebookReactions>(response);
+
+                if (facebookpostreactions.created_time == null)
+                {
+                    return serializer.Deserialize<FacebookError>(response);
+                }
+                return facebookpostreactions;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
+}

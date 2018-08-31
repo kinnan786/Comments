@@ -1,0 +1,19 @@
+﻿using System.Web.Http;
+
+namespace Comments.Web.Controllers.WebApi
+{
+    public class PostCommentsController : ApiController
+    {
+        private long Facebookpost(string postid, string pageid)
+        {
+            var token = "";
+            if (token != "")
+            {
+
+
+            }
+
+            return 0;
+        }
+    }
+}

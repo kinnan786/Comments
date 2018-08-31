@@ -1,0 +1,167 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using LinqKit;
+
+namespace Comments.Data.Filter
+{
+    public class SearchFilter
+    {
+        public string Field { get; set; }
+        public FilterOperations Operator { get; set; }
+        public string Value { get; set; }
+
+        public List<SearchFilter> Filters { get; set; }
+
+        public LogicalOperations Logic { get; set; }
+
+        private Expression<Func<T, bool>> ItemToExpression<T>()
+        {
+            var propertyInfo = typeof(T).GetProperty(Field,
+                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+            if (propertyInfo == null)
+                return null; // skip wrong entries
+
+            var propName = Field;
+
+            // TODO: We don't support paths yet.
+            if (propName.Contains("."))
+                throw new NotSupportedException(
+                    "Only direct members are supported for PropertyPath of FilterDescriptor.");
+
+            var prop = typeof(T).GetProperty(propName,
+                BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+            if (prop == null)
+                throw new InvalidOperationException(
+                    string.Format("Entity of type '{0}' does not have a property named '{1}'.",
+                        typeof(T).Name, propName));
+
+            var propType = prop.PropertyType;
+
+            var paramExpr = Expression.Parameter(typeof(T), "o");
+
+            Expression propExpr = Expression.Property(paramExpr, prop);
+
+            Expression valueExpr = Expression.Constant(Value);
+            if (propType == typeof(Guid) || propType == typeof(Guid?))
+                valueExpr = Expression.Constant(Guid.Parse(Value), propType);
+            else if (propType == typeof(DateTime) || propType == typeof(DateTime?))
+                valueExpr = Expression.Constant(DateTime.Parse(Value), propType);
+            else if (propType == typeof(int) || propType == typeof(int?))
+                valueExpr = Expression.Constant(int.Parse(Value), propType);
+            else if (propType == typeof(decimal) || propType == typeof(decimal?))
+                valueExpr = Expression.Constant(decimal.Parse(Value), propType);
+            else if (propType == typeof(long) || propType == typeof(long?))
+                valueExpr = Expression.Constant(long.Parse(Value), propType);
+            else if (propType == typeof(bool) || propType == typeof(bool?))
+                valueExpr = Expression.Constant(bool.Parse(Value), propType);
+            else if (propType == typeof(TimeSpan) || propType == typeof(TimeSpan?))
+                valueExpr = Expression.Constant(TimeSpan.Parse(Value), propType);
+
+            Expression caseSensExpr = Expression.Constant(StringComparison.OrdinalIgnoreCase);
+            Expression expr;
+            switch (Operator)
+            {
+                case FilterOperations.Eq:
+                    expr = Expression.Equal(propExpr, valueExpr);
+                    break;
+
+                case FilterOperations.Neq:
+                    expr = Expression.NotEqual(propExpr, valueExpr);
+                    break;
+
+                case FilterOperations.Contains:
+                    // TODO: How to express case sensitivity with "Contains"?
+                    expr =
+                        Expression.Call(
+                            propExpr,
+                            typeof(string).GetMethod("Contains", new[] { typeof(string) }),
+                            valueExpr);
+                    break;
+                case FilterOperations.DoesNotContain:
+                    // TODO: How to express case sensitivity with "DoesNotContain"?
+                    expr =
+                        Expression.Not(Expression.Call(
+                            propExpr,
+                            typeof(string).GetMethod("Contains", new[] { typeof(string) }),
+                            valueExpr));
+                    break;
+                case FilterOperations.StartsWith:
+                    expr =
+                        Expression.Call(
+                            propExpr,
+                            typeof(string).GetMethod("StartsWith", new[] { typeof(string), typeof(StringComparison) }),
+                            valueExpr,
+                            caseSensExpr);
+                    break;
+
+                case FilterOperations.EndsWith:
+                    expr =
+                        Expression.Call(
+                            propExpr,
+                            typeof(string).GetMethod("EndsWith", new[] { typeof(string), typeof(StringComparison) }),
+                            valueExpr,
+                            caseSensExpr);
+                    break;
+
+                case FilterOperations.Gt:
+                    expr = Expression.GreaterThan(propExpr, valueExpr);
+                    break;
+
+                case FilterOperations.Gte:
+                    expr = Expression.GreaterThanOrEqual(propExpr, valueExpr);
+                    break;
+
+                case FilterOperations.Lt:
+                    expr = Expression.LessThan(propExpr, valueExpr);
+                    break;
+
+                case FilterOperations.Lte:
+                    expr = Expression.LessThanOrEqual(propExpr, valueExpr);
+                    break;
+
+                // TODO: IMPL "IsContainedIn".
+                default:
+                    throw new NotSupportedException(
+                        string.Format("Filter operator '{0}' is not supported yet.",
+                            Operator));
+            }
+            return Expression.Lambda<Func<T, bool>>(expr, paramExpr);
+        }
+
+        public Expression<Func<T, bool>> ToExpression<T>()
+        {
+            var predicate = ItemToExpression<T>();
+
+            if (Filters == null || !Filters.Any())
+                return predicate;
+
+            IList<Expression> expressions = new List<Expression>();
+
+            foreach (var filter in Filters)
+            {
+                Expression<Func<T, bool>> exp;
+                if (filter.Filters != null && filter.Filters.Any())
+                    exp = filter.ToExpression<T>();
+                else
+                    exp = filter.ItemToExpression<T>();
+                if (exp != null)
+                {
+                    if (Logic == LogicalOperations.Or)
+                        predicate = predicate.Or(exp);
+                    else
+                        predicate = predicate.And(exp);
+                }
+            }
+
+            return predicate;
+        }
+
+        public IQueryable<T> FilterIQueryable<T>(IQueryable<T> inputQuery) where T : class
+        {
+            return inputQuery.AsExpandable().Where(ToExpression<T>());
+        }
+    }
+}

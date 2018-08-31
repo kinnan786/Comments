@@ -1,0 +1,611 @@
+﻿@model Comments.Web.Models.FacebookPostViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet"/>
+    <style type="text/css">
+        body, .navbar-default { background-color: white !important; }
+
+        .panel-footer, .panel-heading {
+            padding-bottom: 5px !important;
+            padding-left: 5px !important;
+            padding-right: 5px !important;
+            padding-top: 5px !important;
+        }
+
+        text { padding: 10px !important; }
+
+        .facebooksaveicon {
+            background-image: url('../../Content/save.png');
+            background-position: 0 -34px;
+            background-repeat: no-repeat;
+            background-size: auto;
+            display: inline-block;
+            height: 16px;
+            left: -22px;
+            width: 16px;
+        }
+
+        .grid-item { width: 45%; }
+
+        .panel-footer, .panel-default > .panel-heading { background-color: white !important; }
+
+        .reaction-like, .reaction-wow, .reaction-haha, .reaction-love, .reaction-angry, .reaction-sad, .reaction-shares, .reaction-comments {
+            background-image: url('../../Content/Images/reaction.png');
+            background-repeat: no-repeat;
+            height: 16px;
+            position: relative;
+            top: 3px;
+            width: 16px;
+        }
+
+        .reaction-wow { background-position: -17px -146px; }
+
+        .reaction-like { background-position: 0px -130px; }
+
+        .reaction-love { background-position: -17px -130px; }
+
+        .reaction-haha { background-position: -34px -113px; }
+
+        .reaction-angry { background-position: -34px -96px; }
+
+
+        .reaction-sad { background-position: -34px -130px; }
+
+        .reaction-shares { background-position: -47px -178px; }
+
+        .reaction-comments { background-position: -32px -162px; }
+
+        ul.menu li { display: inline-block; }
+
+        #canvas-container {
+            margin-bottom: 5px;
+            margin-top: 5px;
+            overflow-x: auto;
+            overflow-y: visible;
+            position: relative;
+        }
+
+        .canvas {
+            display: block;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .canvas.hide { display: none; }
+
+        #box {
+            border-radius: 25px;
+            box-shadow: 0 0 100px 100px rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            pointer-events: none;
+            position: absolute;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container" style="margin-bottom: 20px !important; margin-top: 20px !important;">
+
+<div class="row">
+    <div class="col-lg-6" style="padding-left: 0px !important; padding-right: 0px !important;">
+
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#General" aria-controls="home" role="tab" data-toggle="tab">General</a>
+            </li>
+            <li role="presentation">
+                <a href="#WordGraph" aria-controls="profile" role="tab" data-toggle="tab">Common Words</a>
+            </li>
+            <li role="presentation">
+                <a href="#Media" aria-controls="messages" role="tab" data-toggle="tab">Media</a>
+            </li>
+            <li role="presentation">
+                <a href="#Emoji" aria-controls="messages" role="tab" data-toggle="tab">Emoji</a>
+            </li>
+            <li role="presentation">
+                <a href="#TimeLine" aria-controls="settings" role="tab" data-toggle="tab">TimeLine</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="General" style="border: 1px solid #ddd; border-top: none; height: 400px; overflow: scroll;">
+                <ul class="menu">
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-shares" style="display: inline-block;"></div> &nbsp;&nbsp;Shares @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-comments" style="display: inline-block;"></div> &nbsp;&nbsp; Comments @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            People in Converstaion @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            Most Active User @Html.Label("10")
+                        </button>
+                    </li>
+                </ul>
+                &nbsp;&nbsp;&nbsp; <h4>Reactions</h4>
+
+                <ul class="menu">
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-like" style="display: inline-block;"></div> &nbsp;&nbsp;Like @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-love" style="display: inline-block;"></div> &nbsp;&nbsp;Love @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-haha" style="display: inline-block;"></div> &nbsp;&nbsp;Haha @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-wow" style="display: inline-block;"></div> &nbsp;&nbsp;Wow @Html.Label("10")
+                        </button>
+                    </li>
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-angry" style="display: inline-block;"></div> &nbsp;&nbsp;Angry @Html.Label("10")
+                        </button>
+                    </li>
+
+                    <li style="margin: 2px; padding: 2px;">
+                        <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="reaction-sad" style="display: inline-block;"></div> &nbsp;&nbsp;Sad @Html.Label("10")
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="WordGraph" style="border: 1px solid #ddd; border-top: none;">
+                <div id="canvas-container" style="height: 400px; overflow: scroll;">
+                    <canvas id="my_canvas" width="600" height="400" class="canvas"></canvas>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="Media" style="border: 1px solid #ddd; border-top: none; height: 400px;">
+                <div class="row" style="height: 400px; overflow: scroll; padding: 5px;">
+                    @for (var i = 0; i < 10; i++)
+                    {
+                        <text>
+                            <div class="col-lg-4">
+                                <a class="thumbnail" href="#">
+                                    <img class="img-responsive" src="http://placehold.it/400x300" alt="">
+                                </a>
+                            </div>
+                        </text>
+                    }
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="Emoji" style="border: 1px solid #ddd; border-top: none; height: 400px; overflow: scroll;">
+                Emoji 20
+            </div>
+            <div role="tabpanel" class="tab-pane" id="TimeLine" style="border: 1px solid #ddd; border-top: none; height: 400px; overflow: scroll;">
+                <!-- Identify where the chart should be drawn. -->
+                <div id="myPieChart"></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-6" style="padding-left: 0px !important; padding-right: 0px !important;">
+        <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2Funiladmag%2Fvideos%2F2467949146561463%2F&show_text=0&width=400" width="400" height="400" style="border: none; overflow: hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <br/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-6" style="border: 1px solid #ddd; margin-right: 20px;">
+        <div class="row">
+            <div class="col-xs-10 text-center">
+                <h5>Comments</h5>
+            </div>
+            <div class="col-xs-2" style="padding-top: 2px;">
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li>
+                                <a data-toggle="tooltip" data-placement="top" title="Top Liked Comments">Top Liked</a>
+                            </li>
+
+                            <li>
+                                <a data-toggle="tooltip" data-placement="top" title="Top Comments By Replies count">Top Replied</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tooltip" data-placement="top" title="Most Recent Comments">Most Recent</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tooltip" title="Most Old Comments">Most Old</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="input-group" style="width: 100%;">
+                    <input type="text" class="form-control" placeholder="Search Comments">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" style="height: 500px; overflow: scroll; padding: 5px;">
+                <div class="bs-example" data-example-id="media-alignment">
+                    @for (var i = 0; i < 10; i++)
+                    {
+                        <div class="media">
+                            <div class="media-left">
+                                <h3>@{ var j = i + 1; } @j</h3>
+                            </div>
+                            <div class="media-left">
+                                <a href="#">
+                                    <img alt="64x64" class="media-object" data-src="holder.js/64x64" src="https://placeholdit.imgix.net/~text?txtsize=8&txt=64%C3%9764&w=64&h=64" data-holder-rendered="true" style="height: 64px; width: 64px;">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">Top aligned media</h4>
+                                <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+                                <p>Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                                <p class="media-bottom">
+                                    <ul class="menu">
+                                        <li>
+                                            <button type="button" class="btn btn-default " data-toggle="tooltip" data-placement="top" title='This Comment is liked by @Html.Raw("10") people.' aria-pressed="false" autocomplete="off">
+                                                <div class="reaction-like" style="display: inline-block;"></div> &nbsp;&nbsp;Like @Html.Label("10")
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn btn-default " data-toggle="tooltip" data-placement="top" title="View Comment Replies"  aria-pressed="false" autocomplete="off">
+                                                <div class="reaction-comments" style="display: inline-block;"></div> &nbsp;&nbsp;Replies @Html.Label("10")
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                                                <div style="display: inline-block;"></div> &nbsp;&nbsp; @DateTime.Now.ToShortDateString()
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </p>
+                            </div>
+                        </div>
+                        <hr/>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-5" style="border: 1px solid #ddd;">
+        <div class="row">
+            <div class="col-xs-10 text-center">
+                <h5>Replies</h5>
+            </div>
+            <div class="col-xs-2" style="padding-top: 2px;">
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu pull-right" role="menu">
+                            <li>
+                                <a data-toggle="tooltip" data-placement="top" title="Top Liked Replies">Top Liked</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tooltip" data-placement="top" title="Most Recent Replies">Most Recent</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tooltip" data-placement="top" title="Most Old Replies">Most Old</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="input-group" style="width: 100%;">
+                    <input type="text" class="form-control" placeholder="Search Replies">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" style="height: 500px; overflow: scroll; padding: 5px;">
+                <div class="bs-example" data-example-id="media-alignment">
+
+                    @for (var i = 0; i < 10; i++)
+                    {
+                        <div class="media">
+                            <div class="media-left">
+                                <h3>@{ var j = i + 1; } @j</h3>
+                            </div>
+                            <div class="media-left">
+                                <a href="#">
+                                    <img alt="64x64" class="media-object" data-src="holder.js/64x64" src="https://placeholdit.imgix.net/~text?txtsize=8&txt=64%C3%9764&w=64&h=64" data-holder-rendered="true" style="height: 64px; width: 64px;">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">Top aligned media</h4>
+                                <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+                                <p>Donec sed odio dui. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+                                <p class="media-bottom">
+                                    <ul class="menu">
+                                        <li>
+                                            <button type="button" class="btn btn-default " data-toggle="tooltip" data-placement="top" title="This Comment is liked by @Html.Raw("10") people." aria-pressed="false" autocomplete="off">
+                                                <div class="reaction-like" style="display: inline-block;"></div> &nbsp;&nbsp;Like @Html.Label("10")
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn btn-default " data-toggle="tooltip" data-placement="top" title="View Comment Replies" aria-pressed="false" autocomplete="off">
+                                                <div class="reaction-comments" style="display: inline-block;"></div> &nbsp;&nbsp;Replies @Html.Label("10")
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="btn btn-default " data-toggle="button" aria-pressed="false" autocomplete="off">
+                                                <div style="display: inline-block;"></div> &nbsp;&nbsp; @DateTime.Now.ToShortDateString()
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </p>
+                            </div>
+                        </div>
+                        <hr/>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script src="~/Scripts/jquery-3.1.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<script src="~/Components/wordcloud2.js-gh-pages/src/wordcloud2.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Finger+Paint" rel="stylesheet">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+
+
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        // Define the chart to be drawn.
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'Year');
+        data.addColumn('number', 'Like');
+        data.addColumn('number', 'Comments');
+        data.addColumn('number', 'Replies');
+
+        data.addRows([
+            [new Date(2016, 0, 1), 24, 24, 20],
+            [new Date(2016, 0, 2), 16, 22, 23],
+            [new Date(2016, 0, 3), 28, 19, 29],
+            [new Date(2016, 0, 4), 0, 0, 0],
+            [new Date(2016, 0, 5), 0, 0, 0],
+            [new Date(2016, 0, 6), 0, 0, 0],
+            [new Date(2016, 0, 7), 0, 0, 0],
+            [new Date(2016, 0, 8), 0, 0, 0],
+            [new Date(2016, 0, 9), 0, 0, 0],
+            [new Date(2016, 0, 10), 0, 0, 0],
+            [new Date(2016, 0, 11), 0, 0, 0],
+            [new Date(2016, 0, 12), 0, 0, 0],
+            [new Date(2016, 0, 13), 0, 0, 0],
+            [new Date(2016, 0, 14), 0, 0, 0],
+            [new Date(2016, 0, 15), 0, 0, 0],
+            [new Date(2016, 0, 16), 0, 0, 0],
+            [new Date(2016, 0, 17), 0, 0, 0],
+            [new Date(2016, 0, 18), 0, 0, 0],
+            [new Date(2016, 0, 19), 0, 0, 0],
+            [new Date(2016, 0, 20), 0, 0, 0],
+            [new Date(2016, 0, 21), 0, 0, 0],
+            [new Date(2016, 0, 22), 0, 0, 0],
+            [new Date(2016, 0, 23), 0, 0, 0],
+            [new Date(2016, 0, 24), 0, 0, 0],
+            [new Date(2016, 0, 25), 0, 0, 0],
+            [new Date(2016, 0, 26), 0, 0, 0],
+            [new Date(2016, 0, 27), 0, 0, 0],
+            [new Date(2016, 0, 28), 0, 0, 0],
+            [new Date(2016, 0, 29), 0, 0, 0],
+            [new Date(2016, 0, 30), 0, 0, 0],
+            [new Date(2016, 0, 31), 0, 0, 0]
+        ]);
+
+
+        var options = {
+            title: 'January 2016',
+            titlePosition: 'out',
+            titleTextStyle: {
+                bold: true
+            },
+            width: 725,
+            height: 425,
+            axisTitlesPosition: 'out',
+            enableInteractivity: true,
+            chartArea: {
+                left: 55,
+                top: 25,
+                width: '70%',
+                height: '80%'
+                //backgroundColor:'green'
+            },
+            legend: {
+                position: 'right',
+                alignment: 'top',
+                textStyle: {
+                    bold: true
+                }
+            },
+            bar: {
+                groupWidth: '70%'
+            },
+            //focusTarget: 'category',
+            // colors: ['#e0440e', '#e6693e', '#ec8f6e'],
+            isStacked: true,
+            hAxis: {
+                maxAlternation: 15,
+                title: 'Days',
+                titleTextStyle: {
+                    color: 'black',
+                    bold: true,
+                    italic: false
+                },
+                //viewWindow: {
+                //    min: new Date(2016, 0, 1),
+                //    max: new Date(2016, 0, 29)
+                //},
+                gridlines: {
+                    count: 30
+                },
+                format: 'd'
+            },
+            vAxis: {
+                title: 'Count',
+                titleTextStyle: {
+                    color: 'black',
+                    bold: true,
+                    italic: false
+                },
+                format: 'long',
+                ticks: [0, 50, 100]
+            },
+            explorer: {
+                maxZoomIn: .5,
+                maxZoomOut: .5,
+                axis: 'horizontal'
+            }
+        };
+
+        // Instantiate and draw the chart.
+        var chart = new google.visualization.ColumnChart(document.getElementById('myPieChart'));
+
+        // The select handler. Call the chart's getSelection() method
+        function selectHandler() {
+            var selectedItem = chart.getSelection()[0];
+            if (selectedItem) {
+                if (selectedItem.row && selectedItem.column) {
+                    console.log(selectedItem);
+                    var topping = data.getValue(selectedItem.row, selectedItem.column);
+                    alert('The user selected ' + topping);
+                }
+            }
+        }
+
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+
+        chart.draw(data, options);
+
+
+    }
+
+    var $box = $('<div id="box" hidden />');
+    $("#canvas-container").append($box);
+    window.drawBox = function drawBox(item, dimension) {
+        if (!dimension) {
+            $box.prop("hidden", true);
+
+            return;
+        }
+
+        var dppx = 1;
+
+        $box.prop("hidden", false);
+        $box.css({
+            left: dimension.x / dppx + "px",
+            top: dimension.y / dppx + "px",
+            width: dimension.w / dppx + "px",
+            height: dimension.h / dppx + "px"
+        });
+    };
+
+    if (WordCloud.isSupported) {
+        WordCloud(document.getElementById('my_canvas'), {
+            list: [
+                ["Web Technologies", 26],
+                ["HTML", 20],
+                ["<canvas>", 20],
+                ["CSS", 15],
+                ["JavaScript", 15],
+                ["Document Object Model", 12],
+                ["<audio>", 12],
+                ["<video>", 12],
+                ["Web Workers", 12],
+                ["XMLHttpRequest", 12],
+                ["SVG", 12],
+                ["JSON.parse()", 9],
+                ["Geolocation", 9],
+                ["data attribute", 9],
+                ["transform", 9],
+                ["transition", 9],
+                ["animation", 9],
+                ["setTimeout", 7],
+                ["font-face", 7],
+                ["Typed Arrays", 7],
+                ["FileReader API", 7],
+                ["FormData", 7],
+                ["IndexedDB", 7],
+                ["getUserMedia()", 7],
+                ["postMassage()", 7],
+                ["CORS", 7],
+                ["strict mode", 6],
+                ["calc()", 6],
+                ["supports()", 6],
+                ["media queries", 6],
+                ["full screen", 6],
+                ["notification", 6],
+                ["orientation", 6],
+                ["requestAnimationFrame", 6],
+                ["border-radius", 5],
+                ["box-sizing", 5],
+                ["rgba()", 5],
+                ["text-shadow", 5],
+                ["box-shadow", 5],
+                ["flexbox", 5],
+                ["viewpoint", 5]
+            ],
+            gridSize: 7,
+            drawOutOfBound: false,
+            weightFactor: 3,
+            fontFamily: 'Finger Paint, cursive, sans-serif',
+            hover: window.drawBox,
+            click: function(item) {
+                alert(item[0] + ': ' + item[1]);
+            }
+        });
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+    }
+</script>
+</body>
+</html>

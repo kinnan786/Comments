@@ -1,0 +1,25 @@
+﻿using System.Web.Mvc;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class AdminMailboxController : Controller
+    {
+        // GET: AdminMailbox
+        public ActionResult Compose()
+        {
+            return View();
+        }
+
+        // GET: AdminMailbox
+        public ActionResult Mailbox()
+        {
+            return View();
+        }
+
+        // GET: AdminMailbox
+        public ActionResult Readmail()
+        {
+            return View();
+        }
+    }
+}

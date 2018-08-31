@@ -1,0 +1,31 @@
+﻿
+@{
+    Layout = null;
+    ViewBag.Title = "title";
+}
+@model Comments.Web.Models.FacebookPostViewModel
+<h2>title</h2>
+<div class="panel-body">
+    @if (!string.IsNullOrEmpty(Model.Message))
+    {
+        <div style="font-size: 14px; font-weight: normal; line-height: 1.38; overflow: hidden; overflow-x: hidden; overflow-y: hidden;">
+            <article>
+                @Html.Raw(Model.Message)
+            </article>
+        </div>
+    }
+    <br/>
+    <div class="fb-video" data-href="@Model.Link" data-width="450" data-show-text="false">
+        <blockquote cite="@Model.Link" class="fb-xfbml-parse-ignore"></blockquote>
+    </div>
+    @if (!string.IsNullOrEmpty(Model.Description))
+    {
+        <div style="font-size: 14px; font-weight: normal; line-height: 1.38; overflow: hidden; overflow-x: hidden; overflow-y: hidden;">
+            <p>
+                <article>
+                    @Html.Raw(Model.Description)
+                </article>
+            </p>
+        </div>
+    }
+</div>

@@ -1,0 +1,15 @@
+﻿using System.Web.Mvc;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class CommentsController : Controller
+    {
+        // GET: Comments
+        public ActionResult Index(string id)
+        {
+            ViewData["id"] = id;
+            return View();
+
+        }
+    }
+}

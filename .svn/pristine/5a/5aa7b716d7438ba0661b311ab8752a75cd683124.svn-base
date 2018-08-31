@@ -1,0 +1,7 @@
+﻿namespace Comments.Facebook
+{
+    public static class FacebookSettings
+    {
+        public static string Url { get; } = "https://graph.facebook.com/v2.6/";
+    }
+}

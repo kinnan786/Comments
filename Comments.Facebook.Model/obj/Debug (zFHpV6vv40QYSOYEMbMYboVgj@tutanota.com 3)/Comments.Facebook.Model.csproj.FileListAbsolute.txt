@@ -1,0 +1,5 @@
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook.Model\bin\Debug\Comments.Facebook.Model.dll
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook.Model\bin\Debug\Comments.Facebook.Model.pdb
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook.Model\obj\Debug\Comments.Facebook.Model.csprojResolveAssemblyReference.cache
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook.Model\obj\Debug\Comments.Facebook.Model.dll
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Facebook.Model\obj\Debug\Comments.Facebook.Model.pdb

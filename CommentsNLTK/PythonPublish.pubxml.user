@@ -1,0 +1,544 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Tempinetpub</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="app/forms.py">
+      <publishTime>11/28/2016 20:13:50</publishTime>
+    </File>
+    <File Include="app/migrations/__init__.py">
+      <publishTime>03/14/2016 15:42:06</publishTime>
+    </File>
+    <File Include="app/models.py">
+      <publishTime>11/28/2016 20:13:50</publishTime>
+    </File>
+    <File Include="app/static/app/content/bootstrap.css">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/content/bootstrap.min.css">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/content/site.css">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/fonts/glyphicons-halflings-regular.eot">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/fonts/glyphicons-halflings-regular.svg">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/fonts/glyphicons-halflings-regular.woff">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/bootstrap.js">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/bootstrap.min.js">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/jquery-1.10.2.intellisense.js">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/jquery-1.10.2.js">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/jquery-1.10.2.min.js">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/jquery-1.10.2.min.map">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/jquery.validate-vsdoc.js">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/jquery.validate.js">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/jquery.validate.min.js">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/jquery.validate.unobtrusive.js">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/modernizr-2.6.2.js">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/respond.js">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/respond.min.js">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/static/app/scripts/_references.js">
+      <publishTime>11/29/2016 12:58:02</publishTime>
+    </File>
+    <File Include="app/templates/app/about.html">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/templates/app/contact.html">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/templates/app/index.html">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/templates/app/layout.html">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/templates/app/login.html">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/templates/app/loginpartial.html">
+      <publishTime>11/24/2015 11:04:10</publishTime>
+    </File>
+    <File Include="app/tests.py">
+      <publishTime>11/28/2016 20:13:50</publishTime>
+    </File>
+    <File Include="app/views.py">
+      <publishTime>11/28/2016 20:13:50</publishTime>
+    </File>
+    <File Include="app/__init__.py">
+      <publishTime>11/28/2016 20:13:50</publishTime>
+    </File>
+    <File Include="bin/AzureSetup.cfg">
+      <publishTime>11/29/2016 13:03:13</publishTime>
+    </File>
+    <File Include="bin/Microsoft.PythonTools.AzureSetup.exe">
+      <publishTime>08/25/2016 09:38:14</publishTime>
+    </File>
+    <File Include="bin/Microsoft.PythonTools.AzureSetup.exe.config">
+      <publishTime>11/24/2015 12:04:10</publishTime>
+    </File>
+    <File Include="bin/Microsoft.PythonTools.WebRole.dll">
+      <publishTime>08/25/2016 09:38:14</publishTime>
+    </File>
+    <File Include="bin/wfastcgi.py">
+      <publishTime>11/24/2015 12:04:26</publishTime>
+    </File>
+    <File Include="CommentsNLTK/settings.py">
+      <publishTime>11/29/2016 12:58:09</publishTime>
+    </File>
+    <File Include="CommentsNLTK/urls.py">
+      <publishTime>11/29/2016 13:00:53</publishTime>
+    </File>
+    <File Include="CommentsNLTK/wsgi.py">
+      <publishTime>11/28/2016 20:13:50</publishTime>
+    </File>
+    <File Include="CommentsNLTK/__init__.py">
+      <publishTime>11/28/2016 20:13:50</publishTime>
+    </File>
+    <File Include="db.sqlite3">
+      <publishTime>11/29/2016 13:01:15</publishTime>
+    </File>
+    <File Include="manage.py">
+      <publishTime>11/28/2016 20:13:50</publishTime>
+    </File>
+    <File Include="MyApp1/admin.py">
+      <publishTime>11/28/2016 22:23:13</publishTime>
+    </File>
+    <File Include="MyApp1/apps.py">
+      <publishTime>11/28/2016 22:23:13</publishTime>
+    </File>
+    <File Include="MyApp1/migrations/__init__.py">
+      <publishTime>11/28/2016 22:23:13</publishTime>
+    </File>
+    <File Include="MyApp1/models.py">
+      <publishTime>11/28/2016 22:23:13</publishTime>
+    </File>
+    <File Include="MyApp1/templates/index.html">
+      <publishTime>11/28/2016 22:23:13</publishTime>
+    </File>
+    <File Include="MyApp1/tests.py">
+      <publishTime>11/28/2016 22:23:13</publishTime>
+    </File>
+    <File Include="MyApp1/views.py">
+      <publishTime>11/29/2016 00:29:55</publishTime>
+    </File>
+    <File Include="MyApp1/__init__.py">
+      <publishTime>11/28/2016 22:23:13</publishTime>
+    </File>
+    <File Include="NLTKAPI/apps.py">
+      <publishTime>11/29/2016 11:56:29</publishTime>
+    </File>
+    <File Include="NLTKAPI/migrations/__init__.py">
+      <publishTime>11/29/2016 11:56:29</publishTime>
+    </File>
+    <File Include="NLTKAPI/migrations/__pycache__/__init__.cpython-34.pyc">
+      <publishTime>11/29/2016 12:36:29</publishTime>
+    </File>
+    <File Include="NLTKAPI/models.py">
+      <publishTime>11/29/2016 12:34:15</publishTime>
+    </File>
+    <File Include="NLTKAPI/serializers.py">
+      <publishTime>11/29/2016 12:26:07</publishTime>
+    </File>
+    <File Include="NLTKAPI/views.py">
+      <publishTime>11/29/2016 12:34:42</publishTime>
+    </File>
+    <File Include="NLTKAPI/__init__.py">
+      <publishTime>11/29/2016 11:56:29</publishTime>
+    </File>
+    <File Include="NLTKAPI/__pycache__/admin.cpython-34.pyc">
+      <publishTime>11/29/2016 12:35:01</publishTime>
+    </File>
+    <File Include="NLTKAPI/__pycache__/models.cpython-34.pyc">
+      <publishTime>11/29/2016 12:35:01</publishTime>
+    </File>
+    <File Include="NLTKAPI/__pycache__/serializers.cpython-34.pyc">
+      <publishTime>11/29/2016 12:36:29</publishTime>
+    </File>
+    <File Include="NLTKAPI/__pycache__/views.cpython-34.pyc">
+      <publishTime>11/29/2016 12:36:29</publishTime>
+    </File>
+    <File Include="NLTKAPI/__pycache__/__init__.cpython-34.pyc">
+      <publishTime>11/29/2016 12:35:00</publishTime>
+    </File>
+    <File Include="PrecompiledApp.config">
+      <publishTime>11/29/2016 13:03:15</publishTime>
+    </File>
+    <File Include="ptvsd/attach_server.py">
+      <publishTime>11/24/2015 12:04:24</publishTime>
+    </File>
+    <File Include="ptvsd/visualstudio_py_debugger.py">
+      <publishTime>02/01/2016 16:47:58</publishTime>
+    </File>
+    <File Include="ptvsd/visualstudio_py_repl.py">
+      <publishTime>08/25/2016 09:12:22</publishTime>
+    </File>
+    <File Include="ptvsd/visualstudio_py_util.py">
+      <publishTime>11/24/2015 12:04:24</publishTime>
+    </File>
+    <File Include="ptvsd/__init__.py">
+      <publishTime>11/24/2015 12:04:24</publishTime>
+    </File>
+    <File Include="ptvsd/__main__.py">
+      <publishTime>11/24/2015 12:04:24</publishTime>
+    </File>
+    <File Include="requirements.txt">
+      <publishTime>02/01/2016 15:47:56</publishTime>
+    </File>
+    <File Include="static/admin/css/base.css">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/css/changelists.css">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/css/dashboard.css">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/css/fonts.css">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/css/forms.css">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/css/login.css">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/css/rtl.css">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/css/widgets.css">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/fonts/LICENSE.txt">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/fonts/README.txt">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/fonts/Roboto-Bold-webfont.woff">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/fonts/Roboto-Light-webfont.woff">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/fonts/Roboto-Regular-webfont.woff">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/img/calendar-icons.svg">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/img/gis/move_vertex_off.svg">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/img/gis/move_vertex_on.svg">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/img/icon-addlink.svg">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/img/icon-alert.svg">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/img/icon-calendar.svg">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/img/icon-changelink.svg">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/img/icon-clock.svg">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/img/icon-deletelink.svg">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/img/icon-no.svg">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/img/icon-unknown-alt.svg">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/img/icon-unknown.svg">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/img/icon-yes.svg">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/admin/img/inline-delete.svg">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/img/LICENSE">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/img/README.txt">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/img/search.svg">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/img/selector-icons.svg">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/img/sorting-icons.svg">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/img/tooltag-add.svg">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/img/tooltag-arrowright.svg">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/actions.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/actions.min.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/admin/DateTimeShortcuts.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/admin/RelatedObjectLookups.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/calendar.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/cancel.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/change_form.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/collapse.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/collapse.min.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/core.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/inlines.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/inlines.min.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/jquery.init.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/popup_response.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/prepopulate.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/prepopulate.min.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/prepopulate_init.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/SelectBox.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/SelectFilter2.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/timeparse.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/urlify.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/vendor/jquery/jquery.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/vendor/jquery/jquery.min.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/vendor/jquery/LICENSE-JQUERY.txt">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/vendor/xregexp/LICENSE-XREGEXP.txt">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/vendor/xregexp/xregexp.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/admin/js/vendor/xregexp/xregexp.min.js">
+      <publishTime>11/28/2016 20:50:59</publishTime>
+    </File>
+    <File Include="static/app/content/bootstrap.css">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/content/bootstrap.min.css">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/content/site.css">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/fonts/glyphicons-halflings-regular.eot">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/fonts/glyphicons-halflings-regular.svg">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/fonts/glyphicons-halflings-regular.woff">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/bootstrap.js">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/bootstrap.min.js">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/jquery-1.10.2.intellisense.js">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/jquery-1.10.2.js">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/jquery-1.10.2.min.js">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/jquery-1.10.2.min.map">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/jquery.validate-vsdoc.js">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/jquery.validate.js">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/jquery.validate.min.js">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/jquery.validate.unobtrusive.js">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/modernizr-2.6.2.js">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/respond.js">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/respond.min.js">
+      <publishTime>11/28/2016 20:50:58</publishTime>
+    </File>
+    <File Include="static/app/scripts/_references.js">
+      <publishTime>11/29/2016 13:03:14</publishTime>
+    </File>
+    <File Include="static/rest_framework/css/bootstrap-tweaks.css">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/css/bootstrap.min.css">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/css/default.css">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/css/prettify.css">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/fonts/glyphicons-halflings-regular.eot">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/fonts/glyphicons-halflings-regular.svg">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/fonts/glyphicons-halflings-regular.woff">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/fonts/glyphicons-halflings-regular.woff2">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/img/glyphicons-halflings-white.png">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/img/glyphicons-halflings.png">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/img/grid.png">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/js/ajax-form.js">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/js/bootstrap.min.js">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/js/csrf.js">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/js/default.js">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/js/jquery-1.12.4.min.js">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="static/rest_framework/js/prettify-min.js">
+      <publishTime>11/29/2016 12:46:09</publishTime>
+    </File>
+    <File Include="web.config">
+      <publishTime>11/29/2016 13:03:13</publishTime>
+    </File>
+    <File Include="web.debug.config">
+      <publishTime>11/29/2016 13:03:13</publishTime>
+    </File>
+    <File Include="wfastcgi.py">
+      <publishTime>09/19/2014 15:44:10</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

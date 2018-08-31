@@ -1,0 +1,19 @@
+﻿using System.Web.Mvc;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class AdminTablesController : Controller
+    {
+        // GET: AdminTables
+        public ActionResult Data()
+        {
+            return View();
+        }
+
+        // GET: AdminTables
+        public ActionResult Simple()
+        {
+            return View();
+        }
+    }
+}

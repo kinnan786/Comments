@@ -1,0 +1,74 @@
+﻿using System;
+using System.Net;
+using System.Net.Http;
+using System.Reflection;
+using log4net;
+using Newtonsoft.Json.Linq;
+
+namespace Comments.Facebook
+{
+    public class GraphApiResponse
+    {
+        private static readonly ILog Log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        public string GetResponse(string address)
+        {
+            try
+            {
+                var client = new HttpClient();
+                var response = client.GetAsync(address).Result;
+
+                if (response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    var result = response.Content.ReadAsStringAsync().Result;
+                    var errorObject = JObject.Parse(result);
+                    var errorObjectChildren = JObject.Parse(errorObject["error"].ToString());
+
+                    foreach (var item in errorObjectChildren)
+                    {
+                        if (item.Key == "error_subcode")
+                        {
+                            //Token Expired
+                            if (item.Value.ToString() == "463")
+                            {
+                                return item.ToString();
+                            }
+                                // Error validating access token: Session does not match current stored session. This may be because the user changed the password since the time the session was created or Facebook has changed the session for security reasons.
+                                // code: 190,
+                            if (item.Value.ToString() == "460")
+                            {
+                                // generate a new long access token
+                                return item.ToString();
+                            }
+                        }
+                    }
+                    return HttpStatusCode.BadRequest.ToString();
+                }
+
+                response.EnsureSuccessStatusCode();
+                return response.Content.ReadAsStringAsync().Result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(" Message = " + ex.Message + " stacktrace= " + ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        public string GeturlExpiryResponse(string address)
+        {
+            try
+            {
+                var client = new HttpClient();
+                var response = client.GetAsync(address).Result;
+                return response.Content.ReadAsStringAsync().Result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(" Message = " + ex.Message + " stacktrace= " + ex.StackTrace);
+                throw ex;
+            }
+        }
+    }
+}

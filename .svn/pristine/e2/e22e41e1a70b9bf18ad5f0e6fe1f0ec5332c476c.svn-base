@@ -1,0 +1,44 @@
+﻿using System.Web.Mvc;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class AdminUIController : Controller
+    {
+        // GET: AdminUI
+        public ActionResult General()
+        {
+            return View();
+        }
+
+        // GET: AdminUI
+        public ActionResult Icons()
+        {
+            return View();
+        }
+
+
+        // GET: AdminUI
+        public ActionResult Buttons()
+        {
+            return View();
+        }
+
+        // GET: AdminUI
+        public ActionResult Sliders()
+        {
+            return View();
+        }
+
+        // GET: AdminUI
+        public ActionResult Timeline()
+        {
+            return View();
+        }
+
+        // GET: AdminUI
+        public ActionResult Modals()
+        {
+            return View();
+        }
+    }
+}

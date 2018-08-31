@@ -1,0 +1,12 @@
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Console\bin\Debug\Comments.Console.exe.config
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Console\bin\Debug\Comments.Console.exe
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Console\bin\Debug\Comments.Console.pdb
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Console\bin\Debug\Comments.Facebook.dll
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Console\bin\Debug\Comments.Facebook.Model.dll
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Console\bin\Debug\log4net.dll
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Console\bin\Debug\Comments.Facebook.Model.pdb
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Console\bin\Debug\Comments.Facebook.pdb
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Console\bin\Debug\log4net.xml
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Console\obj\Debug\Comments.Console.csprojResolveAssemblyReference.cache
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Console\obj\Debug\Comments.Console.exe
+D:\Box Sync\Box Sync\Projects\Comments\Comments.Console\obj\Debug\Comments.Console.pdb

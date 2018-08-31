@@ -1,0 +1,13 @@
+﻿using System.Web.Mvc;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class AdminCalendarController : Controller
+    {
+        // GET: AdminCalendar
+        public ActionResult Index()
+        {
+            return View();
+        }
+    }
+}

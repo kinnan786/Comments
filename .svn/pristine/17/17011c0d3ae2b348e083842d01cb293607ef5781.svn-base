@@ -1,0 +1,85 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Http;
+using Comments.Facebook.Model;
+using Comments.Web.Models;
+
+namespace Comments.Web.Controllers.WebApi
+{
+    public class CommentsController : ApiController
+    {
+        public List<FacebookCommentViewModel> Get(int order)
+        {
+            try
+            {
+                // Debugger.Launch();
+                var comments = (List<FacebookComment>)HttpContext.Current.Session["facebookcomment"];
+
+                List<FacebookComment> commentsSorted;
+
+                switch (order)
+                {
+                    case 1:
+                        commentsSorted = comments.OrderByDescending(q => q.like_count).ToList();
+                        break;
+                    case 2:
+                        commentsSorted = comments.OrderByDescending(q => q.comment_count).ToList();
+                        break;
+                    case 3:
+                        commentsSorted = comments.OrderByDescending(q => q.created_time).ToList();
+                        break;
+                    case 4:
+                        commentsSorted = comments.OrderBy(q => q.created_time).ToList();
+                        break;
+                    default:
+                        commentsSorted = comments.OrderByDescending(q => q.like_count).ToList();
+                        break;
+                }
+
+                var lstcommentViewModel = new List<FacebookCommentViewModel>();
+
+                if (commentsSorted != null)
+                {
+                    foreach (var mostLikedComment in commentsSorted)
+                    {
+                        var commentViewModel = new FacebookCommentViewModel
+                        {
+                            CommentId = mostLikedComment.id,
+                            Message = mostLikedComment.message,
+                            FromName = mostLikedComment.from.name,
+                            FromId = mostLikedComment.from.id,
+                            CreatedOn = mostLikedComment.created_time,
+                            Frompic = mostLikedComment.from.picture.data.url,
+                            Likes = mostLikedComment.like_count
+                        };
+
+                        if (mostLikedComment.comments != null)
+                        {
+                            if (mostLikedComment.comments.data != null)
+                            {
+                                commentViewModel.Replies = mostLikedComment.comments.data.Length;
+                            }
+                        }
+
+                        if (mostLikedComment.attachment != null)
+                        {
+                            commentViewModel.CommentAttachmentUrl = mostLikedComment.attachment.media.image.src;
+                            commentViewModel.AttachmentType = mostLikedComment.attachment.type;
+                        }
+
+
+                        lstcommentViewModel.Add(commentViewModel);
+                    }
+                }
+
+                return lstcommentViewModel;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
+}

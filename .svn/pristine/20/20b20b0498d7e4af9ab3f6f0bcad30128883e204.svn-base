@@ -1,0 +1,34 @@
+﻿using System.Web.Mvc;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class AdminChartsController : Controller
+    {
+        // GET: AdminCharts
+        public ActionResult Chartjs()
+        {
+            return View();
+        }
+
+        // GET: AdminCharts
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
+
+        public ActionResult Flot()
+        {
+            return View();
+        }
+
+        public ActionResult Inline()
+        {
+            return View();
+        }
+
+        public ActionResult Morris()
+        {
+            return View();
+        }
+    }
+}

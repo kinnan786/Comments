@@ -1,0 +1,106 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Http;
+using Comments.Facebook.Model;
+using Comments.Web.Models;
+
+namespace Comments.Web.Controllers.WebApi.Facebook
+{
+    public class RepliesController : ApiController
+    {
+        public List<FacebookCommentViewModel> Get(int order, string commentId, string search = "")
+        {
+            try
+            {
+                var repliesfromsession = (List<FacebookComment>)HttpContext.Current.Session["facebookcomment"];
+
+                var commentModelById = repliesfromsession.SingleOrDefault(q => q.id == commentId);
+
+
+                var lstCustomOrderReplies = new List<FacebookCommentViewModel>();
+
+                if (commentModelById != null)
+                {
+                    var lstReplyViewModel = new List<FacebookCommentViewModel>();
+
+                    if (commentModelById.comments != null)
+                    {
+                        if (commentModelById.comments.data != null)
+                        {
+                            var commentReplies = commentModelById.comments.data.ToList();
+
+                            if (commentReplies != null)
+                            {
+                                if (!string.IsNullOrEmpty(search))
+                                {
+                                    var tempReplies = new List<FacebookComment>();
+
+                                    foreach (var facebookComment in commentReplies)
+                                    {
+                                        if (!string.IsNullOrWhiteSpace(facebookComment.message.ToLower()) ||
+                                            facebookComment.message.ToLower() != "")
+                                        {
+                                            var flag = facebookComment.message.ToLower().Contains(search.ToLower());
+                                            if (flag)
+                                            {
+                                                tempReplies.Add(facebookComment);
+                                            }
+                                        }
+                                    }
+                                    commentReplies = tempReplies;
+                                }
+
+                                foreach (var reply in commentReplies)
+                                {
+                                    var replyViewModel = new FacebookCommentViewModel
+                                    {
+                                        CommentId = reply.id,
+                                        Message = reply.message,
+                                        FromName = reply.from.name,
+                                        FromId = reply.from.id,
+                                        CreatedOn = reply.created_time,
+                                        Frompic = reply.from.picture.data.url,
+                                        Likes = reply.like_count
+                                    };
+
+                                    if (reply.attachment != null)
+                                    {
+                                        replyViewModel.CommentAttachmentUrl = reply.attachment.media.image.src;
+                                        replyViewModel.AttachmentType = reply.attachment.type;
+                                    }
+
+                                    lstReplyViewModel.Add(replyViewModel);
+                                }
+                            }
+
+
+                            switch (order)
+                            {
+                                case 1:
+                                    lstCustomOrderReplies = lstReplyViewModel.OrderByDescending(q => q.Likes).ToList();
+                                    break;
+                                case 2:
+                                    lstCustomOrderReplies =
+                                        lstReplyViewModel.OrderByDescending(q => q.CreatedOn).ToList();
+                                    break;
+                                case 3:
+                                    lstCustomOrderReplies = lstReplyViewModel.OrderBy(q => q.CreatedOn).ToList();
+                                    break;
+                                default:
+                                    lstCustomOrderReplies = lstReplyViewModel.OrderByDescending(q => q.Likes).ToList();
+                                    break;
+                            }
+                        }
+                    }
+                }
+                return lstCustomOrderReplies;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+    }
+}

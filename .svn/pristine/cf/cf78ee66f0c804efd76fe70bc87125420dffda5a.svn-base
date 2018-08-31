@@ -1,0 +1,67 @@
+﻿using System.Web.Mvc;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class AdminExamplesController : Controller
+    {
+        // GET: AdminExample
+        public ActionResult page404()
+        {
+            return View();
+        }
+
+        // GET: AdminExample
+        public ActionResult blank()
+        {
+            return View();
+        }
+
+        // GET: AdminExample
+        public ActionResult invoice()
+        {
+            return View();
+        }
+
+        // GET: AdminExample
+        public ActionResult invoiceprint()
+        {
+            return View();
+        }
+
+        // GET: AdminExample
+        public ActionResult lockscreen()
+        {
+            return View();
+        }
+
+        // GET: AdminExample
+        public ActionResult login()
+        {
+            return View();
+        }
+
+        // GET: AdminExample
+        public ActionResult pace()
+        {
+            return View();
+        }
+
+        // GET: AdminExample
+        public ActionResult page500()
+        {
+            return View();
+        }
+
+        // GET: AdminExample
+        public ActionResult profile()
+        {
+            return View();
+        }
+
+        // GET: AdminExample
+        public ActionResult register()
+        {
+            return View();
+        }
+    }
+}

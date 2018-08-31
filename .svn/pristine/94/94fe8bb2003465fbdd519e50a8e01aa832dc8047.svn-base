@@ -1,0 +1,9 @@
+﻿namespace Comments.Facebook
+{
+    public static class FacebookSettings
+    {
+        public static string Url { get; } = "https://graph.facebook.com/v2.8/";
+        public static string ClientId { get; } = "1684083165235754";
+        public static string ClientSecret { get; } = "8acfa62510d5f4e671e898c1d45c5cf2";
+    }
+}

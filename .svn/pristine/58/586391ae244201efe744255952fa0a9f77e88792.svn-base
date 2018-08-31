@@ -1,0 +1,28 @@
+﻿using System.Web.Mvc;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class AdminDashBoardController : Controller
+    {
+        // GET: AdminDashBoard
+        public ActionResult Dashboardone()
+        {
+            return View();
+        }
+
+        public ActionResult Dashboardtwo()
+        {
+            return View();
+        }
+
+        public ActionResult DashboardTest()
+        {
+            return View();
+        }
+
+        public ActionResult FeedSelector()
+        {
+            return View();
+        }
+    }
+}

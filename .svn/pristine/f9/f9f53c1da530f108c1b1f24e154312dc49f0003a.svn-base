@@ -1,0 +1,340 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Web.Mvc;
+using Comments.Facebook.Model;
+using Comments.Web.Models;
+using FacebookPost = Comments.Facebook.FacebookPost;
+
+namespace Comments.Web.Controllers.Page
+{
+    public class FacebookController : Controller
+    {
+        // GET: Comments
+        public ActionResult Index(string id)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(id))
+                {
+                    Debugger.Launch();
+                    var facebookComments = new FacebookPost();
+
+                    var postid = id; //"146505212039213_2464275336928844";
+                    var acccessoken =
+                        "EAACEdEose0cBAEJe0UFgPBAOiGF9ppUZAbjGVigGTk0XUpqoZCxMc8d6mCtR4u08pYZBNLMaOs6dxmX8RZAK12MG0dSkKqzjraBV0yFtMI5um0KvGQlcQajnQ7tvL5uaGKSGb1aLhmpYwViSmZCZAU7GNYvNzsz3UfIJJgDfGQrwZDZD";
+
+                    var facebookreactions = facebookComments.GetFacebookPostReactions(postid, acccessoken);
+                    //var facebookposts = facebookComments.GetFacebookPost(postid, acccessoken);
+
+                    var facebookcomment = facebookComments.GetAllCommentsAndReplies(postid, acccessoken);
+                    CountFacebookReplies(facebookcomment);
+
+
+                    var model = new FacebookPostViewModel();
+
+
+                    //model.CreatedTime = facebookposts.created_time;
+                    ////model.CreatedTime = facebookposts.admin_creator;
+                    ////model.CreatedTime = facebookposts.application;
+                    ////model.CreatedTime = facebookposts.caption;
+                    //model.Description = facebookposts.description;
+                    ////model.CreatedTime = facebookposts.from;
+                    ////model.CreatedTime =facebookposts.icon;
+                    //model.Postid = facebookposts.id;
+                    ////model.CreatedTime =facebookposts.instagram_eligibility;
+                    ////model.CreatedTime =facebookposts.is_hidden;
+                    ////model.CreatedTime =facebookposts.is_published;
+                    //model.Link = facebookposts.link;
+                    //model.Message = facebookposts.message;
+                    ////model.CreatedTime =facebookposts.message_tags;
+                    ////model.CreatedTime =facebookposts.from;
+                    ////model.CreatedTime =facebookposts.name;
+                    ////model.CreatedTime =facebookposts.updated_time;
+                    //model.Type = facebookposts.type;
+                    //model.Story = facebookposts.story;
+                    //model.StatusType = facebookposts.status_type;
+                    ////model.CreatedTime =facebookposts.properties;
+                    ////model.CreatedTime =facebookposts.privacy;
+                    ////model.CreatedTime =facebookposts.place;
+                    ////model.CreatedTime =facebookposts.picture;
+                    ////model.CreatedTime =facebookposts.permalink_url;
+                    //model.Angry = facebookreactions.angry.summary.total_count;
+                    //model.Haha = facebookreactions.haha.summary.total_count;
+                    //model.Likes = facebookreactions.like.summary.total_count;
+                    //model.Love = facebookreactions.love.summary.total_count;
+                    //model.Sad = facebookreactions.sad.summary.total_count;
+                    //model.Wow = facebookreactions.wow.summary.total_count;
+                    //model.Thankful = facebookreactions.thankful.summary.total_count;
+                    //model.Shares = facebookreactions.shares.count;
+                    //model.Lastupdated = DateTime.Now;
+                    //model.FullPicture = facebookposts.picture;
+                    //model.FromName = facebookposts.from.name;
+
+
+                    model.General = new General
+                    {
+                        Angry = facebookreactions.angry.summary.total_count,
+                        Haha = facebookreactions.haha.summary.total_count,
+                        Like = facebookreactions.like.summary.total_count,
+                        Love = facebookreactions.love.summary.total_count,
+                        Sad = facebookreactions.sad.summary.total_count,
+                        //MostActiveUsers = facebookreactions.angry.summary.total_count,
+                        Shares = facebookreactions.shares.count,
+                        Wow = facebookreactions.wow.summary.total_count,
+                        Comments = facebookreactions.comments.summary.total_count
+                    };
+
+                    if (facebookcomment != null)
+                    {
+                        model.General.PeopleInConversation = TotalUniuePeopleinConversation(facebookcomment);
+                        model.General.Replies = CountFacebookReplies(facebookcomment);
+                        model.General.RepliesLikes = CountRepliesLikes(facebookcomment);
+                        model.General.CommentsLikes = CountCommentLikes(facebookcomment);
+                    }
+
+
+                    model.Wordcloud = CountWordCloud(facebookcomment);
+                    model.Chartmonth = GetDates(facebookcomment);
+                    Session["facebookcomment"] = facebookcomment;
+
+                    return View(model);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return View(new FacebookPostViewModel());
+        }
+
+        private void CountEmoji()
+        {
+        }
+
+        private int TotalUniuePeopleinConversation(List<FacebookComment> lstFacebookComments)
+        {
+            try
+            {
+                var dick = new Dictionary<string, int>();
+
+                foreach (var comments in lstFacebookComments)
+                {
+                    if (!dick.ContainsKey(comments.from.name))
+                    {
+                        dick.Add(comments.from.name, 1);
+                    }
+                    else
+                    {
+                        dick[comments.from.name] += 1;
+                    }
+
+                    if (comments.comments != null)
+                    {
+                        if (comments.comments.data != null)
+                        {
+                            foreach (var replies in comments.comments.data)
+                            {
+                                if (!dick.ContainsKey(replies.from.name))
+                                {
+                                    dick.Add(replies.from.name, 1);
+                                }
+                                else
+                                {
+                                    dick[replies.from.name] += 1;
+                                }
+                            }
+                        }
+                    }
+                }
+                return dick.Count;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private Dictionary<string, long> CountWordCloud(List<FacebookComment> lstFacebookComments)
+        {
+            try
+            {
+                var wordCloudDic = new Dictionary<string, long>();
+                foreach (var comments in lstFacebookComments)
+                {
+                    if (!string.IsNullOrEmpty(comments.message))
+                    {
+                        var coment =
+                            comments.message.Replace(".", "")
+                                .Replace(",", "")
+                                .Replace("?", "")
+                                .Replace("\'", "")
+                                .Replace("\\", "")
+                                .Replace("\n", "")
+                                .Replace("\"", "")
+                                .ToLower();
+                        var aaa = coment.Split(' ');
+
+                        foreach (var s in aaa)
+                        {
+                            if (!wordCloudDic.ContainsKey(s))
+                            {
+                                wordCloudDic.Add(s, 1);
+                            }
+                            else
+                            {
+                                wordCloudDic[s] += 1;
+                            }
+                        }
+
+                        if (comments.comments != null)
+                        {
+                            if (comments.comments.data != null)
+                            {
+                                foreach (var replies in comments.comments.data)
+                                {
+                                    var rep =
+                                        replies.message
+                                            .Replace(".", "")
+                                            .Replace(",", "")
+                                            .Replace("?", "")
+                                            .Replace("\'", "")
+                                            .Replace("\\", "")
+                                            .Replace("\"", "")
+                                            .Replace("\n", "")
+                                            .Replace("\"", "")
+                                            .ToLower();
+                                    var bbb = rep.Split(' ');
+
+                                    foreach (var s in bbb)
+                                    {
+                                        if (!wordCloudDic.ContainsKey(s))
+                                        {
+                                            wordCloudDic.Add(s, 1);
+                                        }
+                                        else
+                                        {
+                                            wordCloudDic[s] += 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return wordCloudDic;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private Dictionary<DateTime, ChartMonth> GetDates(List<FacebookComment> lstFacebookComments)
+        {
+            try
+            {
+                var dick = new Dictionary<DateTime, ChartMonth>();
+
+                foreach (var comments in lstFacebookComments)
+                {
+                    var commentdate = DateTime.Parse(comments.created_time.ToShortDateString());
+
+                    if (!dick.ContainsKey(commentdate))
+                    {
+                        dick.Add(commentdate, new ChartMonth {Comments = 1, Replies = 0});
+                    }
+                    else
+                    {
+                        var asd = dick[commentdate];
+                        asd.Comments += 1;
+                        asd.Replies = asd.Replies;
+                        dick[commentdate] = asd;
+                    }
+
+                    if (comments.comments != null)
+                    {
+                        if (comments.comments.data != null)
+                        {
+                            foreach (var replies in comments.comments.data)
+                            {
+                                var repliesdate = DateTime.Parse(replies.created_time.ToShortDateString());
+                                if (!dick.ContainsKey(repliesdate))
+                                {
+                                    dick.Add(repliesdate, new ChartMonth {Comments = 0, Replies = 1});
+                                }
+                                else
+                                {
+                                    var asd = dick[repliesdate];
+                                    asd.Replies += 1;
+                                    asd.Comments = asd.Comments;
+                                    dick[repliesdate] = asd;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                return dick;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private int CountFacebookReplies(List<FacebookComment> lstFacebookComments)
+        {
+            var repliesCount = 0;
+
+            foreach (var item in lstFacebookComments)
+            {
+                repliesCount += Convert.ToInt32(item.comment_count);
+            }
+            return repliesCount;
+        }
+
+        private int CountCommentLikes(List<FacebookComment> lstFacebookComments)
+        {
+            var repliesCount = 0;
+
+            foreach (var comments in lstFacebookComments)
+            {
+                repliesCount += Convert.ToInt32(comments.comment_count);
+            }
+            return repliesCount;
+        }
+
+
+        private int CountRepliesLikes(List<FacebookComment> lstFacebookComments)
+        {
+            var repliesCount = 0;
+
+            foreach (var comments in lstFacebookComments)
+            {
+                if (comments.comments != null)
+                {
+                    if (comments.comments.data != null)
+                    {
+                        foreach (var replies in comments.comments.data)
+                        {
+                            repliesCount += Convert.ToInt32(replies.like_count);
+                        }
+                    }
+                }
+            }
+            return repliesCount;
+        }
+
+
+        private void Analyze(List<FacebookComment> lstFacebookComments)
+        {
+            var Total_Comments = lstFacebookComments.Count;
+            var Mostliked_comments = lstFacebookComments.OrderByDescending(q => q.like_count).ToList();
+            var mostRepliedcomment = lstFacebookComments.OrderByDescending(q => q.comment_count).ToList();
+            var mostrecentcomments = lstFacebookComments.OrderByDescending(q => q.created_time).ToList();
+            var mostoldcomments = lstFacebookComments.OrderBy(q => q.created_time).ToList();
+        }
+    }
+}
